@@ -1,0 +1,234 @@
+/* ============ página ============ */
+@page {
+  size: A4;
+  margin: 2.4cm 2.1cm 2.2cm 2.1cm;
+  @top-left  { content: string(capitulo); font-family: "Noto Sans", sans-serif;
+               font-size: 7.8pt; color: #8A9099; letter-spacing: .04em; }
+  @top-right { content: "TP1 · 26E3_5"; font-family: "Noto Sans", sans-serif;
+               font-size: 7.8pt; color: #8A9099; letter-spacing: .04em; }
+  @bottom-right { content: counter(page); font-family: "Noto Sans", sans-serif;
+                  font-size: 9pt; color: #2C5F8A; font-weight: 600; }
+  @bottom-left  { content: "João Pedro Jacob"; font-family: "Noto Sans", sans-serif;
+                  font-size: 7.8pt; color: #8A9099; }
+}
+@page :first { @top-left { content: "" } @top-right { content: "" }
+               @bottom-left { content: "" } @bottom-right { content: "" } }
+
+/* ============ base ============ */
+body {
+  font-family: "Linux Libertine O", "Noto Serif", Georgia, serif;
+  font-size: 11pt;
+  line-height: 1.52;
+  color: #1B1E24;
+  text-align: justify;
+  hyphens: auto;
+  orphans: 2;
+  widows: 2;
+}
+p { margin: 0 0 .62em; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+
+/* ============ capa ============ */
+header#title-block-header {
+  break-after: page;
+  text-align: left;
+  padding-top: 5.5cm;
+  border-top: 3pt solid #2C5F8A;
+  margin-top: .6cm;
+}
+header#title-block-header h1.title {
+  font-family: "Noto Sans Display", "Noto Sans", sans-serif;
+  font-size: 27pt;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  color: #14171C;
+  border: none;
+  margin: 0 0 .35cm;
+  padding: 0;
+  break-before: avoid;
+  text-align: left;
+}
+header#title-block-header p.subtitle {
+  font-family: "Linux Libertine O", serif;
+  font-style: italic;
+  font-size: 13.5pt;
+  color: #5C6470;
+  margin: 0 0 2.2cm;
+}
+header#title-block-header p.author {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 11pt;
+  font-weight: 600;
+  color: #1B1E24;
+  margin: 0 0 .12cm;
+}
+header#title-block-header p.date {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 9.5pt;
+  color: #8A9099;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ============ sumário ============ */
+nav#TOC { break-after: page; }
+nav#TOC::before {
+  content: "Sumário";
+  display: block;
+  font-family: "Noto Sans Display", "Noto Sans", sans-serif;
+  font-size: 15pt;
+  font-weight: 700;
+  color: #14171C;
+  margin: 0 0 .5cm;
+  padding-bottom: .18cm;
+  border-bottom: 1pt solid #D4D9E0;
+}
+nav#TOC ul { list-style: none; margin: 0; padding: 0; }
+nav#TOC > ul > li { margin: .28cm 0 .1cm; }
+nav#TOC > ul > li > a {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 10pt;
+  font-weight: 600;
+  color: #14171C;
+  text-decoration: none;
+}
+nav#TOC ul ul { padding-left: .7cm; }
+nav#TOC ul ul li { margin: .06cm 0; }
+nav#TOC ul ul a {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 9pt;
+  font-weight: 400;
+  color: #5C6470;
+  text-decoration: none;
+}
+
+/* ============ títulos ============ */
+h1 {
+  string-set: capitulo content();
+  break-before: page;
+  break-after: avoid;
+  font-family: "Noto Sans Display", "Noto Sans", sans-serif;
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -.015em;
+  color: #14171C;
+  margin: 0 0 .55cm;
+  padding-bottom: .2cm;
+  border-bottom: 2pt solid #2C5F8A;
+  text-align: left;
+}
+h2 {
+  break-after: avoid;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 12.5pt;
+  font-weight: 600;
+  letter-spacing: -.008em;
+  color: #2C5F8A;
+  margin: .75cm 0 .22cm;
+  text-align: left;
+}
+h3 {
+  break-after: avoid;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #3D444F;
+  margin: .55cm 0 .18cm;
+  text-align: left;
+}
+h4 {
+  break-after: avoid;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: #5C6470;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin: .45cm 0 .15cm;
+  text-align: left;
+}
+
+/* ============ listas ============ */
+ul, ol { margin: 0 0 .62em; padding-left: 1.15em; }
+li { margin-bottom: .18em; }
+li > p { margin-bottom: .25em; }
+
+/* ============ código ============ */
+code {
+  font-family: "Noto Sans Mono", "DejaVu Sans Mono", monospace;
+  font-size: 8.6pt;
+  background: #F1F3F6;
+  padding: .5pt 2.5pt;
+  border-radius: 2pt;
+  color: #1B4D6B;
+}
+pre {
+  background: #F7F8FA;
+  border: .5pt solid #DFE3E9;
+  border-left: 2.5pt solid #2C5F8A;
+  border-radius: 2pt;
+  padding: .28cm .35cm;
+  margin: .3cm 0 .45cm;
+  font-size: 7.6pt;
+  line-height: 1.42;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: left;
+  hyphens: none;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: #24303B;
+}
+
+/* ============ tabelas ============ */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 9pt;
+  margin: .35cm 0 .5cm;
+  break-inside: avoid;
+  font-variant-numeric: tabular-nums;
+}
+caption { caption-side: top; text-align: left; font-family: "Noto Sans", sans-serif;
+          font-size: 8.5pt; color: #5C6470; padding-bottom: .12cm; }
+thead { border-bottom: 1.2pt solid #2C5F8A; }
+th {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #2C5F8A;
+  text-align: left;
+  padding: .16cm .22cm;
+  vertical-align: bottom;
+}
+td {
+  padding: .15cm .22cm;
+  border-bottom: .5pt solid #E4E8ED;
+  vertical-align: top;
+  text-align: left;
+  hyphens: none;
+}
+tbody tr:last-child td { border-bottom: 1pt solid #C9D0D8; }
+td code { font-size: 8pt; }
+
+/* ============ citações ============ */
+blockquote {
+  border-left: 2.5pt solid #C9D0D8;
+  margin: .35cm 0;
+  padding: .05cm 0 .05cm .4cm;
+  color: #4A515C;
+  font-style: italic;
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+hr { border: none; border-top: .5pt solid #D4D9E0; margin: .7cm 0; }
+a { color: #2C5F8A; text-decoration: none; }

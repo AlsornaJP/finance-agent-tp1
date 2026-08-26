@@ -1,0 +1,113 @@
+{
+  "periodo_analisado": "2024-03-01 a 2024-04-28",
+  "total_gasto": 7613.35,
+  "resumo_por_categoria": [
+    {
+      "categoria": "Moradia",
+      "valor_total": 3101.3,
+      "quantidade_transacoes": 4
+    },
+    {
+      "categoria": "Alimentação",
+      "valor_total": 2843.55,
+      "quantidade_transacoes": 5
+    },
+    {
+      "categoria": "Transporte",
+      "valor_total": 534.6,
+      "quantidade_transacoes": 6
+    },
+    {
+      "categoria": "Serviços/Assinaturas",
+      "valor_total": 203.4,
+      "quantidade_transacoes": 4
+    },
+    {
+      "categoria": "Compras",
+      "valor_total": 344.9,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Educação",
+      "valor_total": 178.0,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Saúde",
+      "valor_total": 424.2,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Lazer",
+      "valor_total": 130.0,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Não identificado",
+      "valor_total": 33.0,
+      "quantidade_transacoes": 1
+    }
+  ],
+  "gastos_anomalos": [
+    {
+      "transacao": "2024-04-14,RESTAURANTE OUTBACK,-2450.00",
+      "motivo_anomalia": "valor cerca de 25x a média das demais despesas de Alimentação no período"
+    }
+  ],
+  "comparacao_mes_anterior": [
+    {
+      "categoria": "Moradia",
+      "valor_atual": 1654.1,
+      "valor_anterior": 1637.2,
+      "variacao": "+1.03%"
+    },
+    {
+      "categoria": "Alimentação",
+      "valor_atual": 2853.25,
+      "valor_anterior": 382.8,
+      "variacao": "+645.3%"
+    },
+    {
+      "categoria": "Transporte",
+      "valor_atual": 320.3,
+      "valor_anterior": 214.3,
+      "variacao": "+49.46%"
+    },
+    {
+      "categoria": "Serviços/Assinaturas",
+      "valor_atual": 61.8,
+      "valor_anterior": 61.8,
+      "variacao": "0%"
+    },
+    {
+      "categoria": "Compras",
+      "valor_atual": 129.9,
+      "valor_anterior": 215.0,
+      "variacao": "-39.58%"
+    },
+    {
+      "categoria": "Educação",
+      "valor_atual": 89.0,
+      "valor_anterior": 89.0,
+      "variacao": "0%"
+    },
+    {
+      "categoria": "Saúde",
+      "valor_atual": 350.0,
+      "valor_anterior": 74.2,
+      "variacao": "+372.4%"
+    },
+    {
+      "categoria": "Lazer",
+      "valor_atual": 72.0,
+      "valor_anterior": 58.0,
+      "variacao": "+24.14%"
+    },
+    {
+      "categoria": "Não identificado",
+      "valor_atual": 33.0,
+      "valor_anterior": 0.0,
+      "variacao": "Novo gasto"
+    }
+  ]
+}

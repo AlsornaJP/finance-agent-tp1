@@ -1,0 +1,58 @@
+{
+  "periodo_analisado": "2024-03-01 a 2024-03-29",
+  "total_gasto": 4182.9,
+  "resumo_por_categoria": [
+    {
+      "categoria": "Moradia",
+      "valor_total": 1648.45,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Alimentação",
+      "valor_total": 1988.35,
+      "quantidade_transacoes": 4
+    },
+    {
+      "categoria": "Transporte",
+      "valor_total": 285.2,
+      "quantidade_transacoes": 4
+    },
+    {
+      "categoria": "Serviços/Assinaturas",
+      "valor_total": 161.7,
+      "quantidade_transacoes": 3
+    },
+    {
+      "categoria": "Saúde",
+      "valor_total": 87.3,
+      "quantidade_transacoes": 1
+    },
+    {
+      "categoria": "Lazer",
+      "valor_total": 64.0,
+      "quantidade_transacoes": 1
+    },
+    {
+      "categoria": "Educação",
+      "valor_total": 249.0,
+      "quantidade_transacoes": 1
+    },
+    {
+      "categoria": "Compras",
+      "valor_total": 459.9,
+      "quantidade_transacoes": 1
+    },
+    {
+      "categoria": "Não identificado",
+      "valor_total": 27.0,
+      "quantidade_transacoes": 1
+    }
+  ],
+  "gastos_anomalos": [
+    {
+      "transacao": "2024-03-15,RESTAURANTE OUTBACK, -1890.00",
+      "motivo_anomalia": "valor cerca de 15x a média das demais despesas de Alimentação no período"
+    }
+  ],
+  "comparacao_mes_anterior": []
+}
