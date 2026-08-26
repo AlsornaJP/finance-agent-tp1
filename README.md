@@ -80,8 +80,10 @@ A Parte 5 grava também o JSON de `result.final_output` validado pelo schema Pyd
 ## Limitação conhecida
 
 Na Parte 5, a saída estruturada degrada a precisão aritmética do modelo. O campo `transacoes`
-enumera o extrato corretamente (19/19 e 30/30 transações, somas exatas), mas `total_gasto` e
-`resumo_por_categoria` divergem da própria lista em categorias com cinco ou mais transações.
+melhora muito a extração sem torná-la confiável — em quatro execuções, a soma da lista bateu com o
+CSV em duas, e nenhuma reproduziu o extrato fielmente (duplicações, descrições corrompidas, datas
+alteradas). Já `total_gasto` e `resumo_por_categoria` divergem da própria lista em todas as
+execuções, sempre em categorias com cinco ou mais transações.
 `main.py` verifica as três consistências a cada execução e marca `[DIVERGE]` no que não fecha, em
 vez de mascarar. Causa, evidências e mitigações em `prompts/analise_resultados.md`. A correção via
 `@function_tool` é escopo do trabalho seguinte.

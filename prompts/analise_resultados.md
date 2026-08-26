@@ -77,43 +77,70 @@ Para testar essa hipótese, o schema recebeu um campo `transacoes` (lista de `da
 antes de produzir qualquer total. O componente de formato de saída passou a instruir que os totais
 sejam calculados a partir dessa lista.
 
-### Resultado: extração corrigida
+### Resultado: extração muito melhorada, mas não confiável
 
-| | 1 mês | 2 meses |
-| --- | --- | --- |
-| Transações enumeradas | 19 de 19 | 30 de 30 |
-| Soma da lista enumerada | **5310,90** (exato) | **8325,65** (exato) |
+Foram feitas quatro execuções com o campo de enumeração — duas por extrato — para verificar se o
+comportamento se repete:
 
-A enumeração é fiel ao centavo nos dois extratos. O defeito de perda de transações desapareceu e a
-classificação saiu íntegra. Isso confirma a hipótese: o modelo *consegue* ler o CSV corretamente; o
-que o schema rígido suprimia era a etapa intermediária, não a capacidade de extração.
+| Execução | Linhas enumeradas | Soma enumerada | Total real | Integridade da lista |
+| --- | --- | --- | --- | --- |
+| 1 mês, 18:47 | 20 | 5310,90 | 5310,90 | data alterada + linha inexistente de R$ 0,00 |
+| 1 mês, 19:54 | 20 | 5339,50 | 5310,90 | transação duplicada |
+| 2 meses, 18:49 | 30 | 8325,65 | 8325,65 | descrição corrompida |
+| 2 meses, 19:55 | 31 | 8365,55 | 8325,65 | transação duplicada |
 
-Ressalva: no extrato de um mês o modelo acrescentou uma linha inexistente
-(`2024-03-09 | Tarefas extras | 0,00`). Por ter valor zero, não afeta nenhuma soma, mas é uma
-alucinação e fica registrada.
+A soma da lista coincidiu com o CSV em duas das quatro execuções, e **nenhuma das quatro reproduziu
+o extrato fielmente**. Comparado ao schema do enunciado, que perdia transações e errava por centenas
+de reais, é uma melhora expressiva: o erro caiu de −1128,00 para, no pior caso, +39,90. Mas a
+enumeração não é fiel, e as duas execuções cujo total bateu o fizeram por compensação, não por
+acerto — na de 18:47, a `PADARIA CENTRAL` foi deslocada de 09/03 para 03/03 e uma linha fantasma de
+R$ 0,00 foi acrescentada; como a data não entra na soma e o valor fantasma era zero, o total
+permaneceu exato.
+
+Os defeitos de integridade se concentram na geração das descrições:
+
+```text
+METRO SP RECARGA  ->  "METRO SP RE carved"
+PADARIA CENTRAL   ->  "እየሱስce"            (caracteres em amárico)
+NETFLIX.COM       ->  "descricao own"
+(inexistente)     ->  "Tarefas extras"
+```
+
+São falhas de geração token a token, típicas de modelos pequenos em saídas longas e repetitivas. Nas
+duas execuções em que a soma divergiu, a diferença equivale exatamente ao valor de uma transação
+duplicada — R$ 28,60 (`PADARIA CENTRAL`) e R$ 39,90 (`NETFLIX.COM`).
 
 ### Resultado: agregação ainda incorreta
 
-Comparando cada categoria informada contra o valor derivado da lista que o próprio modelo produziu:
+Comparando cada categoria informada contra o valor derivado da lista que o próprio modelo produziu,
+nas quatro execuções:
 
-| Extrato | Categorias exatas | Categorias com erro de soma |
+| Execução | Categorias exatas | Categorias com erro de soma |
 | --- | --- | --- |
-| 1 mês | 8 de 9 | `Alimentação` (5 tx): informou 2238,35, sua lista soma 2328,35 |
-| 2 meses | 7 de 9 | `Alimentação` (6 tx) e `Transporte` (7 tx) |
+| 1 mês, 18:47 | 8 de 9 | `Alimentação` (5 tx) |
+| 1 mês, 19:54 | 8 de 9 | `Alimentação` (6 tx) |
+| 2 meses, 18:49 | 7 de 9 | `Alimentação` (6 tx), `Transporte` (7 tx) |
+| 2 meses, 19:55 | 6 de 9 | `Alimentação` (6 tx), `Transporte` (7 tx), `Serviços/Assinaturas` (5 tx) |
 
-`total_gasto` também segue divergente: 5344,70 contra 5310,90 no extrato de um mês, e 8572,35
-contra 8325,65 no de dois meses.
+`total_gasto` divergiu da soma das próprias categorias em todas as execuções, sem exceção.
 
-O padrão é consistente entre os dois extratos: **toda categoria com uma ou duas transações saiu
-exata; todo erro está em categoria com cinco ou mais.** A taxa de erro escala com o número de
-parcelas da soma, não com o valor envolvido.
+O padrão se manteve nas quatro rodadas: **toda categoria com uma ou duas transações saiu exata;
+todo erro está em categoria com cinco ou mais.** A repetição reforçou a hipótese em vez de
+enfraquecê-la — a categoria que passou a errar na última execução, `Serviços/Assinaturas`, tem
+exatamente cinco transações, o limiar identificado nas rodadas anteriores.
+
+A taxa de erro escala com o número de parcelas da soma, não com o valor envolvido nem com a
+categoria específica. Note ainda que `Alimentação` erra nas quatro execuções e `Transporte` nas duas
+do extrato maior: as categorias mais numerosas erram de forma sistemática, não ocasional.
 
 ### Conclusão do experimento
 
-O campo de enumeração resolveu a extração e não resolveu a aritmética. O ganho real é diagnóstico:
-antes a divergência era ambígua entre perda de dados e erro de cálculo; agora está demonstrado que
-o modelo extrai corretamente e falha apenas ao somar. O critério de verificação do enunciado
-(`soma de resumo_por_categoria == total_gasto`) continua **não satisfeito**.
+O campo de enumeração melhorou muito a extração sem torná-la confiável, e não resolveu a
+aritmética. O ganho é sobretudo diagnóstico: com a lista à vista, é possível separar o que antes era
+uma divergência ambígua em dois defeitos independentes — falhas de integridade na enumeração
+(duplicações, descrições corrompidas, datas alteradas) e erros de adição sobre valores que o próprio
+modelo registrou corretamente. O critério de verificação do enunciado
+(`soma de resumo_por_categoria == total_gasto`) continua **não satisfeito** em todas as execuções.
 
 A alteração foi mantida por dominar a versão anterior: mesma falha no critério, porém com dados
 corretos na saída e uma limitação caracterizada com precisão.
