@@ -11,3 +11,6 @@ wheels/
 
 # Segredos
 .env
+
+# ZIP de arquivamento: gerado a partir do próprio commit
+entrega/*.zip
