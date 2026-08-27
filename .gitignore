@@ -14,3 +14,7 @@ wheels/
 
 # ZIP de arquivamento: gerado a partir do próprio commit
 entrega/*.zip
+
+# Vídeo da apresentação: entra no ZIP, não no repositório
+entrega/*.mkv
+entrega/*.mp4
