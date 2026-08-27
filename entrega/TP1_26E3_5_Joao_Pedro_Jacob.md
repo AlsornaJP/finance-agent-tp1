@@ -12,13 +12,16 @@ uma explicação do funcionamento do agente passo a passo, os prompts documentad
 quatro componentes (Partes 3 a 5 do trabalho), a análise dos resultados com as justificativas
 técnicas, e as evidências de execução registradas em log.
 
-O código-fonte completo está no repositório que acompanha esta entrega.
+O código-fonte completo está no repositório público do projeto:
+
+<https://github.com/AlsornaJP/finance-agent-tp1>
 
 
 # Parte I — Especificação do problema e arquitetura inicial
 
 **Aluno:** João Pedro Jacob
 **Disciplina:** 26E3_5
+**Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
 **Data:** Agosto de 2026
 
 ---

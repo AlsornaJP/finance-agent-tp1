@@ -2,6 +2,7 @@
 
 **Aluno:** João Pedro Jacob
 **Disciplina:** 26E3_5
+**Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
 **Data:** Agosto de 2026
 
 ---

@@ -1,6 +1,7 @@
 # Agente de Análise de Finanças Pessoais (TP1)
 
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
+**Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
 
 
 Agente single-turn construído com o **OpenAI Agents SDK**, acessando modelos via **OpenRouter**.
