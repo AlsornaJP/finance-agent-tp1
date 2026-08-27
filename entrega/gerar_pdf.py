@@ -46,8 +46,9 @@ date: "Agosto de 2026"
 # Sumário do documento
 
 Este documento reúne, em ordem: a especificação do problema e a arquitetura inicial (Partes 1 e 2),
-os prompts documentados com a anatomia de quatro componentes (Partes 3 a 5), a análise dos
-resultados com as justificativas técnicas, e as evidências de execução registradas em log.
+uma explicação do funcionamento do agente passo a passo, os prompts documentados com a anatomia de
+quatro componentes (Partes 3 a 5 do trabalho), a análise dos resultados com as justificativas
+técnicas, e as evidências de execução registradas em log.
 
 O código-fonte completo está no repositório que acompanha esta entrega.
 """]
@@ -55,18 +56,21 @@ O código-fonte completo está no repositório que acompanha esta entrega.
     partes.append("# Parte I — Especificação do problema e arquitetura inicial\n\n"
                   + corpo(RAIZ / "spec/TP1_spec_partes_1_2.md"))
 
-    partes.append("# Parte II — Prompts documentados\n")
+    partes.append("# Parte II — Como o agente funciona, passo a passo\n\n"
+                  + corpo(RAIZ / "spec/fluxo_de_execucao.md"))
+
+    partes.append("# Parte III — Prompts documentados\n")
     for arq in ("parte3_instructions.md", "parte4_instructions.md", "parte5_instructions.md"):
         caminho = RAIZ / "prompts" / arq
         titulo = caminho.read_text(encoding="utf-8").split("\n")[0].lstrip("# ")
         partes.append(f"## {titulo}\n\n" + corpo(caminho))
 
-    partes.append("# Parte III — Análise dos resultados e justificativas técnicas\n\n"
+    partes.append("# Parte IV — Análise dos resultados e justificativas técnicas\n\n"
                   + corpo(RAIZ / "prompts/analise_resultados.md"))
 
-    partes.append("# Parte IV — Evidências de execução\n\n"
+    partes.append("# Parte V — Evidências de execução\n\n"
                   "Os logs abaixo reproduzem o cabeçalho de cada execução e a resposta do modelo. "
-                  "As *instructions* enviadas foram omitidas por já constarem da Parte II, e os CSVs "
+                  "As *instructions* enviadas foram omitidas por já constarem da Parte III, e os CSVs "
                   "de entrada constam do apêndice.")
 
     for log in sorted((RAIZ / "prompts/outputs").glob("*.md")):

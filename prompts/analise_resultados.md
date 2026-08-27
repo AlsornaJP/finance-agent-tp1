@@ -73,7 +73,7 @@ cálculo intermediário.
 
 Para testar essa hipótese, o schema recebeu um campo `transacoes` (lista de `data`, `descricao`,
 `valor`, `categoria`) posicionado **antes** de todos os campos agregados — a ordem das propriedades
-é preservada no JSON Schema gerado, então o modelo é obrigado a enumerar o extrato linha a linha
+é preservada no JSON Schema gerado, o que induz o modelo a enumerar o extrato linha a linha
 antes de produzir qualquer total. O componente de formato de saída passou a instruir que os totais
 sejam calculados a partir dessa lista.
 
