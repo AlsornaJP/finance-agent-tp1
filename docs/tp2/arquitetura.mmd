@@ -1,0 +1,17 @@
+flowchart LR
+    UI["📱 Telegram"] --> Trigger["⚡ #9 Gatilho n8n<br/>Telegram Trigger"]
+    Trigger --> Router["🤖 #8 Agente n8n<br/>classificador da pergunta"]
+
+    Router -->|"#5 HTTP"| API1["🌐 #4 API /run<br/>🤖 #1 Agente Consultor<br/>🧠 #2 Memória (SQLiteSession + memórias)<br/>📚 #3 RAG (guia de orçamento)"]
+    API1 --> Loop1["🔁 Polling"]
+    Loop1 -->|"#5 HTTP"| Status1["🌐 #4 /status"]
+    Status1 -->|"pending"| Loop1
+    Status1 -->|"done"| Merge["🔀 #7 Merge n8n"]
+
+    Router -->|"#5 HTTP"| API2["🌐 #4 API /run<br/>🤖 #1 Agente Analista<br/>🔧 #6 Tools/MCP de cálculo<br/>🗄️ SQLite de transações"]
+    API2 --> Loop2["🔁 Polling"]
+    Loop2 -->|"#5 HTTP"| Status2["🌐 #4 /status"]
+    Status2 -->|"pending"| Loop2
+    Status2 -->|"done"| Merge
+
+    Merge --> Resposta["📤 Resposta no Telegram"]
