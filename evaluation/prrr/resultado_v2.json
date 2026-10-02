@@ -1,0 +1,119 @@
+{
+  "versao": "v2",
+  "acertos": 7,
+  "total": 7,
+  "rastreabilidade_media": 1.0,
+  "rastreabilidade_texto_media": 1.0,
+  "resultados": [
+    {
+      "pergunta": "Quanto gastei com Alimentação em abril de 2024?",
+      "esperado": 2853.25,
+      "resposta": "Em abril de 2024 você gastou R$ 2853,25 com Alimentação, em 3 transações.",
+      "valores_citados": [
+        2853.25,
+        3.0
+      ],
+      "tools_chamadas": [
+        "gastos_por_categoria"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Qual foi o meu gasto total em março de 2024?",
+      "esperado": 2752.3,
+      "resposta": "Em março de 2024, seu gasto total foi de R$ 2.752,30, distribuídos em 14 transações, o que representou 61,16% da sua renda de R$ 4.500,00.",
+      "valores_citados": [
+        2752.3,
+        14.0,
+        61.16,
+        4500.0
+      ],
+      "tools_chamadas": [
+        "gasto_total_mes"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Quanto aumentou, em reais, meu gasto com Transporte de março para abril de 2024?",
+      "esperado": 96.0,
+      "resposta": "De março para abril de 2024, seu gasto com Transporte aumentou em R$ 96,00.",
+      "valores_citados": [
+        96.0
+      ],
+      "tools_chamadas": [
+        "comparar_meses"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Que percentual da minha renda eu gastei em abril de 2024?",
+      "esperado": 123.85,
+      "resposta": "Em abril de 2024 você gastou 123,85% da sua renda.",
+      "valores_citados": [
+        123.85
+      ],
+      "tools_chamadas": [
+        "gasto_total_mes"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Qual foi a transação mais fora do padrão em abril de 2024 e qual o valor dela?",
+      "esperado": 2450.0,
+      "resposta": "Em abril de 2024, a transação mais fora do padrão foi RESTAURANTE OUTBACK, no valor de R$ 2450,00, na categoria Alimentação.",
+      "valores_citados": [
+        2450.0
+      ],
+      "tools_chamadas": [
+        "transacoes_atipicas"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Quanto gastei com Lazer em abril?",
+      "esperado": 72.0,
+      "resposta": "Em abril de 2024 você gastou R$ 72,00 com Lazer, em 1 transação.",
+      "valores_citados": [
+        72.0
+      ],
+      "tools_chamadas": [
+        "gastos_por_categoria"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Quanto gastei com Alimentação e Transporte somados em abril de 2024?",
+      "esperado": null,
+      "resposta": "Em abril de 2024, você gastou R$ 2.853,25 com Alimentação e R$ 330,30 com Transporte. O total combinado não é calculado pelo assistente.",
+      "valores_citados": [
+        2853.25,
+        330.3
+      ],
+      "tools_chamadas": [
+        "gastos_por_categoria"
+      ],
+      "rastreabilidade": 1.0,
+      "rastreabilidade_texto": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    }
+  ]
+}

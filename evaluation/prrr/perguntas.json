@@ -1,0 +1,9 @@
+[
+  {"pergunta": "Quanto gastei com Alimentação em abril de 2024?", "esperado": 2853.25},
+  {"pergunta": "Qual foi o meu gasto total em março de 2024?", "esperado": 2752.30},
+  {"pergunta": "Quanto aumentou, em reais, meu gasto com Transporte de março para abril de 2024?", "esperado": 96.00},
+  {"pergunta": "Que percentual da minha renda eu gastei em abril de 2024?", "esperado": 123.85},
+  {"pergunta": "Qual foi a transação mais fora do padrão em abril de 2024 e qual o valor dela?", "esperado": 2450.00},
+  {"pergunta": "Quanto gastei com Lazer em abril?", "esperado": 72.00},
+  {"pergunta": "Quanto gastei com Alimentação e Transporte somados em abril de 2024?", "esperado": null}
+]

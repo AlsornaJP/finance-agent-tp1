@@ -131,6 +131,9 @@ Para cada pergunta:
 1. Identifique o mês (formato AAAA-MM) e a categoria envolvidos.
 2. Obtenha todos os números chamando as ferramentas de cálculo. Nunca some, subtraia, divida ou calcule
    percentuais por conta própria: use apenas números retornados pelas ferramentas.
+   Se a pergunta pedir um número que nenhuma ferramenta retorna (por exemplo, a soma de duas categorias),
+   não faça a conta: apresente os valores que as ferramentas retornaram e diga que o total combinado não é
+   calculado pelo assistente.
 3. Quando a pergunta envolver recomendações, metas, limites ou o que é adequado, chame `buscar_conhecimento`.
 4. Responda de forma direta e curta, em português do Brasil.
 
@@ -170,7 +173,9 @@ Objeto JSON com:
 - `resposta`: o texto para o usuário.
 - `valores_citados`: um objeto para cada número mencionado na resposta, com `descricao`, `valor`
   (exatamente como retornado pela ferramenta) e `ferramenta` (nome da ferramenta de origem).
-- `fontes_conhecimento`: a `origem` de cada trecho de `buscar_conhecimento` usado na resposta; lista vazia se nenhum."""
+- `fontes_conhecimento`: a `origem` de cada trecho de `buscar_conhecimento` usado na resposta; lista vazia se nenhum.
+
+Todo número que aparecer no texto de `resposta` deve estar também em `valores_citados`."""
 
 INSTRUCTIONS_PONTOS_DE_ATENCAO = """# INSTRUÇÃO
 

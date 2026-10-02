@@ -1,0 +1,81 @@
+{
+  "versao": "v1",
+  "acertos": 5,
+  "total": 5,
+  "rastreabilidade_media": 1.0,
+  "resultados": [
+    {
+      "pergunta": "Quanto gastei com Alimentação em abril de 2024?",
+      "esperado": 2853.25,
+      "resposta": "Em abril de 2024 você gastou R$ 2853,25 com Alimentação, em 3 transações.",
+      "valores_citados": [
+        2853.25
+      ],
+      "tools_chamadas": [
+        "gastos_por_categoria"
+      ],
+      "rastreabilidade": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Qual foi o meu gasto total em março de 2024?",
+      "esperado": 2752.3,
+      "resposta": "Em março de 2024, seu gasto total foi de R$ 2.752,30, distribuídos em 14 transações, o que representou 61,16% da sua renda de R$ 4.500,00.",
+      "valores_citados": [
+        2752.3,
+        14.0,
+        4500.0,
+        61.16
+      ],
+      "tools_chamadas": [
+        "gasto_total_mes"
+      ],
+      "rastreabilidade": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Quanto aumentou, em reais, meu gasto com Transporte de março para abril de 2024?",
+      "esperado": 96.0,
+      "resposta": "De março para abril de 2024, seu gasto com Transporte aumentou R$ 96,00.",
+      "valores_citados": [
+        96.0
+      ],
+      "tools_chamadas": [
+        "comparar_meses"
+      ],
+      "rastreabilidade": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Que percentual da minha renda eu gastei em abril de 2024?",
+      "esperado": 123.85,
+      "resposta": "Em abril de 2024 você gastou 123,85% da sua renda.",
+      "valores_citados": [
+        123.85
+      ],
+      "tools_chamadas": [
+        "gasto_total_mes"
+      ],
+      "rastreabilidade": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    },
+    {
+      "pergunta": "Qual foi a transação mais fora do padrão em abril de 2024 e qual o valor dela?",
+      "esperado": 2450.0,
+      "resposta": "Em abril de 2024, a transação mais fora do padrão foi RESTAURANTE OUTBACK, no valor de R$ 2450,00, na categoria Alimentação.",
+      "valores_citados": [
+        2450.0
+      ],
+      "tools_chamadas": [
+        "transacoes_atipicas"
+      ],
+      "rastreabilidade": 1.0,
+      "acertou": true,
+      "modelo": "gemini-3.5-flash-lite"
+    }
+  ]
+}
