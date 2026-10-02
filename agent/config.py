@@ -8,6 +8,8 @@ from openai import AsyncOpenAI
 API_KEY_VARS = ("OPENAI_API_KEY", "OPENAI_SECOND_API_KEY", "OPENAI_THIRD_API_KEY")
 GOOGLE_BASE_URL_PADRAO = "https://generativelanguage.googleapis.com/v1beta/openai/"
 GOOGLE_EMBEDDING_MODEL_PADRAO = "gemini-embedding-001"
+TIMEOUT_REQUISICAO_SEGUNDOS = 180.0
+RETENTATIVAS_POR_REQUISICAO = 1
 
 
 class ConfigError(RuntimeError):
@@ -77,13 +79,23 @@ def configure_sdk(settings: Settings) -> None:
 def openrouter_client(settings: Settings, key_index: int) -> tuple[str, AsyncOpenAI]:
     if key_index >= len(settings.api_keys):
         raise ConfigError("Não há mais chaves de API do OpenRouter disponíveis no .env.")
-    client = AsyncOpenAI(api_key=settings.api_keys[key_index], base_url=settings.base_url)
+    client = AsyncOpenAI(
+        api_key=settings.api_keys[key_index],
+        base_url=settings.base_url,
+        timeout=TIMEOUT_REQUISICAO_SEGUNDOS,
+        max_retries=RETENTATIVAS_POR_REQUISICAO,
+    )
     set_default_openai_client(client, use_for_tracing=False)
     return settings.key_names[key_index], client
 
 
 def google_client(settings: Settings) -> AsyncOpenAI:
-    return AsyncOpenAI(api_key=settings.google_api_key, base_url=settings.google_base_url)
+    return AsyncOpenAI(
+        api_key=settings.google_api_key,
+        base_url=settings.google_base_url,
+        timeout=TIMEOUT_REQUISICAO_SEGUNDOS,
+        max_retries=RETENTATIVAS_POR_REQUISICAO,
+    )
 
 
 def modelo_no_google(modelo_openrouter: str) -> str:
