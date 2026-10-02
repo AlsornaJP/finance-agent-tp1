@@ -1,24 +1,24 @@
+from collections.abc import Callable
 from dataclasses import dataclass
-from pathlib import Path
+from typing import Any
 
-from agents import Runner
+from agents import Agent, Model, OpenAIChatCompletionsModel, RunResult, Runner, Session
 from openai import APIStatusError, AsyncOpenAI, RateLimitError
 
-from agent.config import (
-    Settings,
-    configure_sdk,
-    google_client,
-    modelo_no_google,
-    openrouter_client,
-)
-from agent.execution_log import salvar_json, salvar_log
-from agent.finance_agent import build_agent
-from agent.schema import AnaliseFinanceira
+from agent.config import ConfigError, Settings, configure_sdk, google_client, modelo_no_google, openrouter_client
+from agent.execution_log import Secao, salvar_registro
 
 MARCADORES_LIMITE_UPSTREAM = ("upstream_provider_shared_pool", "rate-limited upstream")
+PROVEDOR_GOOGLE = "GoogleAIStudio/chave-pessoal"
+
+ConstrutorAgente = Callable[[Model], Agent]
 
 
 class RateLimitAtingido(RuntimeError):
+    pass
+
+
+class FalhaDeExecucao(RuntimeError):
     pass
 
 
@@ -27,6 +27,13 @@ class Tentativa:
     provedor: str
     client: AsyncOpenAI
     model: str
+
+
+@dataclass(frozen=True)
+class Execucao:
+    resultado: RunResult
+    provedor: str
+    modelo: str
 
 
 def _e_rate_limit(erro: Exception) -> bool:
@@ -46,17 +53,24 @@ def _e_limite_da_chave(erro: Exception) -> bool:
     return _e_rate_limit(erro) and not _e_limite_do_provedor(erro)
 
 
-def _montar_tentativas(settings: Settings, key_index: int) -> tuple[str, list[Tentativa]]:
+def _tentativas_com_tools(settings: Settings) -> list[Tentativa]:
+    if not settings.google_api_key:
+        raise ConfigError("Agentes com tools exigem GOOGLE_API_KEY (modelos Gemini do Google AI Studio).")
+    if not settings.google_tool_models:
+        raise ConfigError("Agentes com tools exigem GOOGLE_TOOL_MODELS no .env, ex.: gemini-3.5-flash-lite.")
+    cliente = google_client(settings)
+    return [Tentativa(PROVEDOR_GOOGLE, cliente, model) for model in settings.google_tool_models]
+
+
+def montar_tentativas(settings: Settings, key_index: int, com_tools: bool) -> list[Tentativa]:
+    if com_tools:
+        return _tentativas_com_tools(settings)
     key_name, client = openrouter_client(settings, key_index)
     tentativas = [Tentativa(f"OpenRouter/{key_name}", client, model) for model in settings.modelos]
-
     if settings.google_api_key:
         pessoal = google_client(settings)
-        tentativas += [
-            Tentativa("GoogleAIStudio/chave-pessoal", pessoal, modelo_no_google(model))
-            for model in settings.modelos
-        ]
-    return key_name, tentativas
+        tentativas += [Tentativa(PROVEDOR_GOOGLE, pessoal, modelo_no_google(model)) for model in settings.modelos]
+    return tentativas
 
 
 def _confirmar_proxima_chave(settings: Settings, proximo_indice: int) -> bool:
@@ -70,50 +84,40 @@ def _confirmar_proxima_chave(settings: Settings, proximo_indice: int) -> bool:
     return resposta.strip().lower() in {"s", "sim", "y", "yes"}
 
 
-def _registrar_sucesso(
-    etapa: str,
-    tentativa: Tentativa,
-    csv_path: str,
-    instructions: str,
-    csv_text: str,
-    final_output: object,
-) -> None:
-    estruturado = isinstance(final_output, AnaliseFinanceira)
-    log = salvar_log(
-        etapa=etapa,
-        model=tentativa.model,
-        key_name=tentativa.provedor,
-        csv_path=csv_path,
-        instructions=instructions,
-        csv_text=csv_text,
-        resultado=final_output.model_dump_json(indent=2) if estruturado else str(final_output),
-    )
-    print(f"[{etapa}] log salvo em {log}")
-    if estruturado:
-        print(f"[{etapa}] JSON salvo em {salvar_json(etapa, csv_path, final_output.model_dump())}")
+async def restaurar_sessao(session: Session | None, quantidade_itens: int) -> None:
+    if session is None:
+        return
+    while len(await session.get_items()) > quantidade_itens:
+        await session.pop_item()
 
 
-async def rodar_analise(etapa: str, csv_path: str, settings: Settings) -> object:
-    csv_text = Path(csv_path).read_text(encoding="utf-8")
-    instructions = build_agent(etapa, settings.default_model).instructions
+async def executar(
+    construir: ConstrutorAgente,
+    entrada: str,
+    settings: Settings,
+    *,
+    com_tools: bool = False,
+    session: Session | None = None,
+    context: Any = None,
+    max_turns: int = 10,
+) -> Execucao:
     configure_sdk(settings)
+    itens_iniciais = len(await session.get_items()) if session else 0
 
     key_index = 0
     while True:
-        key_name, tentativas = _montar_tentativas(settings, key_index)
         erros: list[tuple[Tentativa, Exception]] = []
-
-        for tentativa in tentativas:
-            print(f"[{etapa}] provedor={tentativa.provedor} modelo={tentativa.model} csv={csv_path}")
+        for tentativa in montar_tentativas(settings, key_index, com_tools):
+            print(f"[agente] provedor={tentativa.provedor} modelo={tentativa.model}")
             try:
-                agent = build_agent(etapa, tentativa.model, tentativa.client)
-                final_output = (await Runner.run(agent, csv_text)).final_output
+                agente = construir(OpenAIChatCompletionsModel(model=tentativa.model, openai_client=tentativa.client))
+                resultado = await Runner.run(agente, entrada, session=session, context=context, max_turns=max_turns)
             except Exception as erro:
+                await restaurar_sessao(session, itens_iniciais)
                 erros.append((tentativa, erro))
-                print(f"[{etapa}] falha: {type(erro).__name__}: {erro}")
+                print(f"[agente] falha: {type(erro).__name__}: {erro}")
                 continue
-            _registrar_sucesso(etapa, tentativa, csv_path, instructions, csv_text, final_output)
-            return final_output
+            return Execucao(resultado, tentativa.provedor, tentativa.model)
 
         limite_de_chave = any(
             _e_limite_da_chave(erro) for tentativa, erro in erros if tentativa.provedor.startswith("OpenRouter")
@@ -125,24 +129,18 @@ async def rodar_analise(etapa: str, csv_path: str, settings: Settings) -> object
         relatorio = "\n\n".join(
             f"[{tentativa.provedor} | {tentativa.model}] {type(erro).__name__}: {erro}" for tentativa, erro in erros
         )
-        salvar_log(
-            etapa=etapa,
-            model=", ".join(sorted({t.model for t, _ in erros})),
-            key_name=key_name,
-            csv_path=csv_path,
-            instructions=instructions,
-            csv_text=csv_text,
-            erro=relatorio,
+        salvar_registro(
+            "erro",
+            "Execução — falha em todas as tentativas",
+            {},
+            [Secao("Entrada", entrada), Secao("Erros", relatorio)],
         )
 
         if all(_e_limite_do_provedor(erro) for _, erro in erros):
             raise RateLimitAtingido(
                 "Todos os provedores e modelos configurados estão sob rate limit upstream. "
-                "Se o fallback do Google AI Studio estiver configurado e também falhar, "
-                "tente novamente em alguns minutos ou troque OPENAI_DEFAULT_MODEL."
+                "Tente novamente em alguns minutos."
             )
         if limite_de_chave:
-            raise RateLimitAtingido(
-                "Limite de requisições da chave atingido e nenhuma chave alternativa foi autorizada."
-            )
-        raise RuntimeError(f"Execução falhou em todas as tentativas:\n\n{relatorio}")
+            raise RateLimitAtingido("Limite de requisições da chave atingido e nenhuma chave alternativa foi autorizada.")
+        raise FalhaDeExecucao(f"Execução falhou em todas as tentativas:\n\n{relatorio}")
