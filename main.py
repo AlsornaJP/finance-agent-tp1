@@ -6,6 +6,7 @@ from pathlib import Path
 
 from agent.config import ConfigError, load_settings
 from agent.database import CAMINHO_BANCO_PADRAO
+from agent.consulta import perguntar
 from agent.importacao import importar
 from agent.runner import FalhaDeExecucao, RateLimitAtingido
 
@@ -17,8 +18,19 @@ async def _importar(argumentos: argparse.Namespace) -> None:
     print(f"[importar] log salvo em {log}")
 
 
+async def _perguntar(argumentos: argparse.Namespace) -> None:
+    resultado = await perguntar(argumentos.banco, argumentos.sessao, argumentos.pergunta, load_settings())
+    print(f"\n{resultado.resposta.resposta}\n")
+    for valor in resultado.resposta.valores_citados:
+        print(f"  - {valor.descricao}: {valor.valor} (via {valor.ferramenta})")
+    for fonte in resultado.resposta.fontes_conhecimento:
+        print(f"  - fonte: {fonte}")
+    print(f"\n[perguntar] log salvo em {resultado.log}")
+
+
 COMANDOS: dict[str, Callable[[argparse.Namespace], Awaitable[None]]] = {
     "importar": _importar,
+    "perguntar": _perguntar,
 }
 
 
@@ -29,6 +41,11 @@ def _parser() -> argparse.ArgumentParser:
     comando_importar = subcomandos.add_parser("importar", help="Importa um CSV e classifica as transações")
     comando_importar.add_argument("csv", type=Path)
     comando_importar.add_argument("--banco", type=Path, default=CAMINHO_BANCO_PADRAO)
+
+    comando_perguntar = subcomandos.add_parser("perguntar", help="Faz uma pergunta ao assistente")
+    comando_perguntar.add_argument("pergunta")
+    comando_perguntar.add_argument("--sessao", required=True)
+    comando_perguntar.add_argument("--banco", type=Path, default=CAMINHO_BANCO_PADRAO)
 
     return parser
 
