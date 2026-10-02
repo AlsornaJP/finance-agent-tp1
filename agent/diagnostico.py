@@ -1,4 +1,5 @@
 import json
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 
 from agent import database, rag
@@ -7,7 +8,14 @@ from agent.config import Settings
 from agent.execution_log import Secao, salvar_registro
 from agent.prompts import INSTRUCTIONS_CONFRONTO_GUIA, INSTRUCTIONS_PONTOS_DE_ATENCAO, INSTRUCTIONS_RECOMENDACOES
 from agent.runner import Execucao, executar
-from agent.schema import AvaliacaoGuia, DiagnosticoMensal, LevantamentoMensal, PontosDeAtencao
+from agent.schema import (
+    AvaliacaoGuia,
+    DiagnosticoMensal,
+    LevantamentoMensal,
+    PontoDeAtencao,
+    PontosDeAtencao,
+    TrechoRecuperado,
+)
 
 TRECHOS_POR_PONTO = 2
 
@@ -25,6 +33,18 @@ def levantar_mes(banco: Path, mes: str) -> LevantamentoMensal:
         comparacao=database.comparar_meses(banco, mes, anterior) if tem_anterior else [],
         atipicas=database.transacoes_atipicas(banco, mes),
     )
+
+
+async def recuperar_trechos(
+    pontos: list[PontoDeAtencao], buscar: Callable[[str], Awaitable[list[TrechoRecuperado]]]
+) -> list[dict]:
+    return [
+        {
+            "assunto": ponto.assunto,
+            "trechos": [trecho.model_dump() for trecho in await buscar(f"{ponto.assunto}: {ponto.motivo}")],
+        }
+        for ponto in pontos
+    ]
 
 
 def _json(dados: object) -> str:
@@ -50,16 +70,11 @@ async def diagnosticar(banco: Path, mes: str, settings: Settings) -> tuple[Diagn
     execucao_pontos = await executar(construir_pontos_de_atencao, levantamento.model_dump_json(indent=2), settings)
     pontos: PontosDeAtencao = execucao_pontos.resultado.final_output
 
-    trechos_por_assunto = {
-        ponto.assunto: [
-            trecho.model_dump()
-            for trecho in await rag.buscar(
-                banco, f"{ponto.assunto}: {ponto.motivo}", settings, incluir_memorias=False, limite=TRECHOS_POR_PONTO
-            )
-        ]
-        for ponto in pontos.pontos
-    }
-    entrada_confronto = _json({"pontos": pontos.model_dump()["pontos"], "trechos_guia": trechos_por_assunto})
+    trechos_por_ponto = await recuperar_trechos(
+        pontos.pontos,
+        lambda consulta: rag.buscar(banco, consulta, settings, incluir_memorias=False, limite=TRECHOS_POR_PONTO),
+    )
+    entrada_confronto = _json({"pontos": pontos.model_dump()["pontos"], "trechos_guia": trechos_por_ponto})
     execucao_confronto = await executar(construir_confronto_guia, entrada_confronto, settings)
     avaliacao: AvaliacaoGuia = execucao_confronto.resultado.final_output
 
@@ -76,7 +91,7 @@ async def diagnosticar(banco: Path, mes: str, settings: Settings) -> tuple[Diagn
         [
             Secao("Etapa 1 — Levantamento (Python, sem LLM)", levantamento.model_dump_json(indent=2), "json"),
             *_secoes_da_etapa("Etapa 2 — Pontos de atenção", INSTRUCTIONS_PONTOS_DE_ATENCAO, execucao_pontos),
-            Secao("Etapa 3 — Trechos do guia recuperados por ponto (RAG)", _json(trechos_por_assunto), "json"),
+            Secao("Etapa 3 — Trechos do guia recuperados por ponto (RAG)", _json(trechos_por_ponto), "json"),
             *_secoes_da_etapa("Etapa 3 — Confronto com o guia", INSTRUCTIONS_CONFRONTO_GUIA, execucao_confronto),
             *_secoes_da_etapa("Etapa 4 — Recomendações", INSTRUCTIONS_RECOMENDACOES, execucao_recomendacoes),
         ],

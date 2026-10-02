@@ -218,8 +218,8 @@ situação está dentro ou fora do recomendado.
 
 # CONTEXTO
 
-Entrada: JSON com `pontos` (assunto, dados, motivo) e `trechos_guia`, um mapa do assunto de cada ponto
-para os trechos do guia mais relevantes a ele.
+Entrada: JSON com `pontos` (assunto, dados, motivo) e `trechos_guia`, uma lista na mesma ordem dos pontos
+com o `assunto` de cada ponto e os `trechos` do guia mais relevantes a ele.
 
 Regras:
 - Baseie a decisão apenas nos trechos recebidos; se nenhum trecho tratar do assunto, use
