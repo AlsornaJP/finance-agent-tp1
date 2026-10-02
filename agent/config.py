@@ -7,6 +7,7 @@ from openai import AsyncOpenAI
 
 API_KEY_VARS = ("OPENAI_API_KEY", "OPENAI_SECOND_API_KEY", "OPENAI_THIRD_API_KEY")
 GOOGLE_BASE_URL_PADRAO = "https://generativelanguage.googleapis.com/v1beta/openai/"
+GOOGLE_EMBEDDING_MODEL_PADRAO = "gemini-embedding-001"
 
 
 class ConfigError(RuntimeError):
@@ -23,6 +24,8 @@ class Settings:
     tracing_disabled: bool
     google_api_key: str
     google_base_url: str
+    google_embedding_model: str
+    google_tool_models: tuple[str, ...]
 
     @property
     def modelos(self) -> tuple[str, ...]:
@@ -59,6 +62,10 @@ def load_settings() -> Settings:
         tracing_disabled=os.getenv("OPENAI_AGENTS_DISABLE_TRACING", "0").strip() == "1",
         google_api_key=os.getenv("GOOGLE_API_KEY", "").strip(),
         google_base_url=os.getenv("GOOGLE_BASE_URL", "").strip() or GOOGLE_BASE_URL_PADRAO,
+        google_embedding_model=os.getenv("GOOGLE_EMBEDDING_MODEL", "").strip() or GOOGLE_EMBEDDING_MODEL_PADRAO,
+        google_tool_models=tuple(
+            modelo.strip() for modelo in os.getenv("GOOGLE_TOOL_MODELS", "").split(",") if modelo.strip()
+        ),
     )
 
 

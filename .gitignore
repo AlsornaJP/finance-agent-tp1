@@ -18,3 +18,6 @@ entrega/*.zip
 # Vídeo da apresentação: entra no ZIP, não no repositório
 entrega/*.mkv
 entrega/*.mp4
+
+# Banco local do agente (transações, sessões, memórias)
+data/
