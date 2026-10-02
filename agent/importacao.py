@@ -7,7 +7,7 @@ from agent.agents import construir_classificador
 from agent.config import Settings
 from agent.execution_log import Secao, salvar_registro
 from agent.prompts import INSTRUCTIONS_CLASSIFICADOR
-from agent.runner import Execucao, executar
+from agent.runner import Execucao, FalhaDeExecucao, RateLimitAtingido, executar
 from agent.schema import ClassificacaoTransacao, TransacaoParaClassificar
 
 TENTATIVAS_CLASSIFICACAO = 2
@@ -44,7 +44,12 @@ async def classificar_pendentes(banco: Path, settings: Settings) -> RelatorioCla
     for _ in range(TENTATIVAS_CLASSIFICACAO):
         if not restantes:
             break
-        execucao = await executar(construir_classificador, _entrada_classificador(restantes), settings)
+        try:
+            execucao = await executar(construir_classificador, _entrada_classificador(restantes), settings)
+        except (FalhaDeExecucao, RateLimitAtingido):
+            if not execucoes:
+                raise
+            break
         execucoes.append(execucao)
         aceitas, restantes = incorporar_classificacoes(restantes, execucao.resultado.final_output.classificacoes)
         classificadas += aceitas

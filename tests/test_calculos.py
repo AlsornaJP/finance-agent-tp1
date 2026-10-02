@@ -77,3 +77,13 @@ def test_listar_transacoes_rejeita_categoria_desconhecida(banco_classificado):
 def test_gasto_total_mes_informa_saldo_do_mes(banco_classificado):
     assert database.gasto_total_mes(banco_classificado, "2024-04").saldo == -1073.35
     assert database.gasto_total_mes(banco_classificado, "2024-03").saldo == 1747.7
+
+
+def test_transacoes_atipicas_ignora_categoria_com_media_zero(banco, tmp_path):
+    csv = tmp_path / "zeros.csv"
+    csv.write_text(
+        "data,descrição,valor,tipo\n2024-05-01,A,0.00,saida\n2024-05-02,A,0.00,saida\n2024-05-03,A,-5.00,saida\n",
+        encoding="utf-8",
+    )
+    database.importar_csv(banco, csv)
+    assert database.transacoes_atipicas(banco, "2024-05") == []

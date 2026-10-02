@@ -76,3 +76,30 @@ def test_sem_categoria_lista_apenas_saidas_pendentes_e_gravar_atualiza(banco):
 
 def test_banco_gabarito_classifica_todas_as_saidas(banco_classificado):
     assert database.transacoes_sem_categoria(banco_classificado) == []
+
+
+def test_tipo_com_acento_ou_maiusculas_e_normalizado(banco, tmp_path):
+    csv = tmp_path / "tipos.csv"
+    csv.write_text(
+        "data,descrição,valor,tipo\n2024-05-01,A,-1.00,saída\n2024-05-02,B,-2.00,SAIDA\n2024-05-03,C,3.00,Entrada\n",
+        encoding="utf-8",
+    )
+    assert database.importar_csv(banco, csv).inseridas == 3
+    assert [linha["tipo"] for linha in _linhas(banco)] == ["saida", "saida", "entrada"]
+
+
+@pytest.mark.parametrize(
+    "linha, trecho_erro",
+    [
+        ("2024-05-02,B,-2.00,transferencia", "tipo"),
+        ("2024-05-02,B,nan,saida", "valor"),
+        ("01/05/2024,B,-2.00,saida", "data"),
+        ("2024-05-02,,-2.00,saida", "descrição"),
+    ],
+)
+def test_linha_invalida_cita_a_linha_e_nao_grava_nada(banco, tmp_path, linha, trecho_erro):
+    csv = tmp_path / "invalida.csv"
+    csv.write_text(f"data,descrição,valor,tipo\n2024-05-01,A,-1.00,saida\n{linha}\n", encoding="utf-8")
+    with pytest.raises(database.ErroDeImportacao, match=f"linha 3.*{trecho_erro}"):
+        database.importar_csv(banco, csv)
+    assert _linhas(banco) == []

@@ -1,9 +1,12 @@
 import csv
+import math
 import re
 import sqlite3
 import statistics
+import unicodedata
 from collections import Counter, defaultdict
 from contextlib import closing
+from datetime import date
 from pathlib import Path
 
 from agent.schema import (
@@ -59,6 +62,8 @@ COMMIT;
 """
 
 COLUNAS_DESCRICAO = ("descrição", "descricao")
+TIPOS = ("entrada", "saida")
+PADRAO_DATA = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
 class ErroDeImportacao(ValueError):
@@ -71,6 +76,30 @@ def conectar(banco: Path) -> sqlite3.Connection:
     conexao.row_factory = sqlite3.Row
     conexao.executescript(ESQUEMA)
     return conexao
+
+
+def _sem_acentos(texto: str) -> str:
+    return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
+
+
+def _validar_linha(linha: dict[str, str | None], coluna_descricao: str) -> tuple[str, str, float, str]:
+    data = (linha.get("data") or "").strip()
+    if not PADRAO_DATA.match(data):
+        raise ValueError(f"data inválida {data!r}; use AAAA-MM-DD")
+    date.fromisoformat(data)
+    descricao = (linha.get(coluna_descricao) or "").strip()
+    if not descricao:
+        raise ValueError("descrição vazia")
+    try:
+        valor = float(linha.get("valor") or "")
+    except ValueError:
+        raise ValueError(f"valor inválido {linha.get('valor')!r}") from None
+    if not math.isfinite(valor):
+        raise ValueError(f"valor inválido {linha.get('valor')!r}")
+    tipo = _sem_acentos((linha.get("tipo") or "").strip().lower()) or ("entrada" if valor > 0 else "saida")
+    if tipo not in TIPOS:
+        raise ValueError(f"tipo inválido {linha.get('tipo')!r}; use entrada ou saída")
+    return data, descricao, round(abs(valor), 2), tipo
 
 
 def _ler_registros(caminho_csv: Path) -> list[tuple]:
@@ -88,13 +117,9 @@ def _ler_registros(caminho_csv: Path) -> list[tuple]:
         registros = []
         for numero_linha, linha in enumerate(leitor, start=2):
             try:
-                valor = float(linha["valor"])
-            except (TypeError, ValueError):
-                raise ErroDeImportacao(
-                    f"{caminho_csv.name}, linha {numero_linha}: valor inválido {linha['valor']!r}"
-                ) from None
-            tipo = (linha.get("tipo") or "").strip() or ("entrada" if valor > 0 else "saida")
-            chave = (linha["data"].strip(), linha[coluna_descricao].strip(), round(abs(valor), 2), tipo)
+                chave = _validar_linha(linha, coluna_descricao)
+            except ValueError as erro:
+                raise ErroDeImportacao(f"{caminho_csv.name}, linha {numero_linha}: {erro}") from None
             ocorrencias[chave] += 1
             registros.append((*chave, caminho_csv.name, ocorrencias[chave]))
         return registros
@@ -247,6 +272,8 @@ def transacoes_atipicas(banco: Path, mes: str) -> list[TransacaoAtipica]:
         if len(demais) < MINIMO_COMPARACOES_ATIPICO:
             continue
         media = statistics.mean(demais)
+        if media == 0:
+            continue
         razao = saida["valor"] / media
         if razao > FATOR_ATIPICO:
             atipicas.append(

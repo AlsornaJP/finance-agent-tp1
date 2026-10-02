@@ -4,14 +4,16 @@ import sys
 from collections.abc import Awaitable, Callable
 from pathlib import Path
 
+from openai import APIError
+
 from agent.config import ConfigError, load_settings
-from agent.database import CAMINHO_BANCO_PADRAO
 from agent.consulta import perguntar
+from agent.database import CAMINHO_BANCO_PADRAO
 from agent.diagnostico import diagnosticar
 from agent.importacao import importar
 from agent.runner import FalhaDeExecucao, RateLimitAtingido
 
-ERROS_ESPERADOS = (ConfigError, RateLimitAtingido, FalhaDeExecucao, ValueError)
+ERROS_ESPERADOS = (ConfigError, RateLimitAtingido, FalhaDeExecucao, ValueError, OSError, APIError)
 
 
 async def _importar(argumentos: argparse.Namespace) -> None:

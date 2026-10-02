@@ -2,10 +2,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from agents import SQLiteSession
+from openai import APIError
 
 from agent import rag
 from agent.agents import construir_assistente
-from agent.config import Settings
+from agent.config import ConfigError, Settings
 from agent.execution_log import DIRETORIO_LOGS, Secao, salvar_registro
 from agent.prompts import INSTRUCTIONS_ASSISTENTE
 from agent.rastreio import ChamadaTool, chamadas_de_tool, formatar_chamadas
@@ -26,6 +27,15 @@ class ResultadoPergunta:
 
 def texto_memoria(pergunta: str, resposta: str) -> str:
     return f"Pergunta do usuário: {pergunta}\nResposta do assistente: {resposta}"
+
+
+async def _gravar_memoria(banco: Path, sessao_id: str, pergunta: str, resposta: str, settings: Settings) -> str:
+    try:
+        await rag.gravar_memoria(banco, sessao_id, texto_memoria(pergunta, resposta), settings)
+    except (APIError, ConfigError) as erro:
+        print(f"[perguntar] memória não gravada: {erro}")
+        return f"não gravada ({type(erro).__name__}: {erro})"
+    return "gravada"
 
 
 async def perguntar(
@@ -53,7 +63,7 @@ async def perguntar(
         sessao.close()
 
     resposta: RespostaFinanceira = execucao.resultado.final_output
-    await rag.gravar_memoria(banco, sessao_id, texto_memoria(pergunta, resposta.resposta), settings)
+    situacao_memoria = await _gravar_memoria(banco, sessao_id, pergunta, resposta.resposta, settings)
     chamadas = chamadas_de_tool(execucao.resultado.new_items)
 
     log = salvar_registro(
@@ -64,6 +74,7 @@ async def perguntar(
             "Itens no histórico da sessão antes da pergunta": str(itens_anteriores),
             "Provedor": execucao.provedor,
             "Modelo": execucao.modelo,
+            "Memória de longo prazo": situacao_memoria,
         },
         [
             Secao("Instructions", instructions),
