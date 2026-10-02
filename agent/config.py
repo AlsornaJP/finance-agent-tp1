@@ -27,7 +27,7 @@ class Settings:
     google_api_key: str
     google_base_url: str
     google_embedding_model: str
-    google_tool_models: tuple[str, ...]
+    gemini_models: tuple[str, ...]
 
     @property
     def modelos(self) -> tuple[str, ...]:
@@ -65,8 +65,8 @@ def load_settings() -> Settings:
         google_api_key=os.getenv("GOOGLE_API_KEY", "").strip(),
         google_base_url=os.getenv("GOOGLE_BASE_URL", "").strip() or GOOGLE_BASE_URL_PADRAO,
         google_embedding_model=os.getenv("GOOGLE_EMBEDDING_MODEL", "").strip() or GOOGLE_EMBEDDING_MODEL_PADRAO,
-        google_tool_models=tuple(
-            modelo.strip() for modelo in os.getenv("GOOGLE_TOOL_MODELS", "").split(",") if modelo.strip()
+        gemini_models=tuple(
+            modelo.strip() for modelo in os.getenv("GEMINI_MODELS", "").split(",") if modelo.strip()
         ),
     )
 

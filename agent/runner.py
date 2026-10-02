@@ -53,25 +53,27 @@ def _e_limite_da_chave(erro: Exception) -> bool:
     return _e_rate_limit(erro) and not _e_limite_do_provedor(erro)
 
 
-def _tentativas_com_tools(settings: Settings) -> list[Tentativa]:
+def _tentativas_gemini(settings: Settings) -> list[Tentativa]:
     if not settings.google_api_key:
-        raise ConfigError("Agentes com tools exigem GOOGLE_API_KEY (modelos Gemini do Google AI Studio).")
-    if not settings.google_tool_models:
-        raise ConfigError("Agentes com tools exigem GOOGLE_TOOL_MODELS no .env, ex.: gemini-3.5-flash-lite.")
+        return []
     cliente = google_client(settings)
-    return [Tentativa(PROVEDOR_GOOGLE, cliente, model) for model in settings.google_tool_models]
+    return [Tentativa(PROVEDOR_GOOGLE, cliente, model) for model in settings.gemini_models]
 
 
 def montar_tentativas(settings: Settings, key_index: int, com_tools: bool) -> list[Tentativa]:
+    gemini = _tentativas_gemini(settings)
     if com_tools:
-        return _tentativas_com_tools(settings)
+        if not settings.google_api_key:
+            raise ConfigError("Agentes com tools exigem GOOGLE_API_KEY (modelos Gemini do Google AI Studio).")
+        if not gemini:
+            raise ConfigError("Agentes com tools exigem GEMINI_MODELS no .env, ex.: gemini-3.5-flash-lite.")
+        return gemini
     key_name, client = openrouter_client(settings, key_index)
-    tentativas = [Tentativa(f"OpenRouter/{key_name}", client, model) for model in settings.modelos]
+    gemma = [Tentativa(f"OpenRouter/{key_name}", client, model) for model in settings.modelos]
     if settings.google_api_key:
         pessoal = google_client(settings)
-        modelos_google = [modelo_no_google(model) for model in settings.modelos] + list(settings.google_tool_models)
-        tentativas += [Tentativa(PROVEDOR_GOOGLE, pessoal, model) for model in modelos_google]
-    return tentativas
+        gemma += [Tentativa(PROVEDOR_GOOGLE, pessoal, modelo_no_google(model)) for model in settings.modelos]
+    return gemini + gemma
 
 
 def _confirmar_proxima_chave(settings: Settings, proximo_indice: int) -> bool:
