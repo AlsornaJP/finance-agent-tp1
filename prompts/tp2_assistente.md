@@ -38,8 +38,8 @@ citado contra os retornos das tools daquela execução.
 
 Os modelos Gemma, quando recebem `output_type` (enviado como `response_format` JSON), deixam de chamar
 tools e calculam sozinhos — exatamente o que o projeto quer evitar. Os modelos Gemini 3.x combinam as duas
-coisas. Por isso o assistente usa `GOOGLE_TOOL_MODELS` (`gemini-3.5-flash-lite`, `gemini-3.1-flash-lite`),
-enquanto os agentes sem tools seguem na cadeia Gemma do TP1.
+coisas. Por isso o assistente usa apenas `GEMINI_MODELS` (`gemini-3.5-flash-lite`, `gemini-3.1-flash-lite`).
+Os agentes sem tools também começam pelo Gemini e usam a cadeia Gemma do TP1 como fallback.
 
 ## Instructions (anatomia de 4 componentes)
 

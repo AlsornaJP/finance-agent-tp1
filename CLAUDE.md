@@ -13,7 +13,7 @@ Agente de análise de finanças pessoais (Projeto de Bloco — disciplina de Age
   - `OPENAI_FALLBACK_MODEL=google/gemma-4-26b-a4b-it:free` — usado se o principal falhar/atingir limite
   - `GOOGLE_API_KEY` — chave pessoal do Google AI Studio (fallback de modelos e embeddings do RAG)
   - `GOOGLE_EMBEDDING_MODEL=gemini-embedding-001` — embeddings do RAG
-  - `GOOGLE_TOOL_MODELS` — modelos Gemini usados por agentes com tools (os Gemma ignoram tools quando há `output_type`); também são o último recurso dos demais agentes
+  - `GEMINI_MODELS` — modelos Gemini, primeira opção de todos os agentes e única dos agentes com tools (os Gemma ignoram tools quando há `output_type`); Gemma vira fallback
   - `OPENAI_AGENTS_DISABLE_TRACING=1` — tracing do Agents SDK desativado (o tracing nativo do SDK envia dados para a plataforma da OpenAI, incompatível com o uso via OpenRouter)
 - **Nunca** commitar o `.env` real; manter só um `.env.example` com os nomes das variáveis, sem valores
 

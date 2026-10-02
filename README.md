@@ -49,16 +49,17 @@ cp .env.example .env         # preencha as chaves
 | --- | --- |
 | `OPENAI_API_KEY`, `OPENAI_SECOND_API_KEY`, `OPENAI_THIRD_API_KEY` | Chaves do OpenRouter (rotação mediante confirmação) |
 | `OPENAI_BASE_URL` | `https://openrouter.ai/api/v1` |
-| `OPENAI_DEFAULT_MODEL`, `OPENAI_FALLBACK_MODEL` | Modelos Gemma dos agentes sem tools |
+| `OPENAI_DEFAULT_MODEL`, `OPENAI_FALLBACK_MODEL` | Modelos Gemma, fallback dos agentes sem tools |
 | `GOOGLE_API_KEY`, `GOOGLE_BASE_URL` | Google AI Studio: fallback de modelos e embeddings |
 | `GOOGLE_EMBEDDING_MODEL` | Embeddings do RAG (`gemini-embedding-001`) |
-| `GOOGLE_TOOL_MODELS` | Modelos Gemini dos agentes com tools, ex.: `gemini-3.5-flash-lite,gemini-3.1-flash-lite` |
+| `GEMINI_MODELS` | Modelos Gemini, primeira opção de todos os agentes, ex.: `gemini-3.5-flash-lite,gemini-3.1-flash-lite` |
 | `OPENAI_AGENTS_DISABLE_TRACING` | `1` desativa o tracing nativo do SDK |
 
-Por que dois grupos de modelos: os modelos Gemma, quando recebem `output_type` (enviado como
-`response_format` JSON), deixam de chamar tools e calculam sozinhos. Os Gemini 3.x combinam tools e saída
-estruturada, então o assistente usa `GOOGLE_TOOL_MODELS`. Os demais agentes seguem a cadeia Gemma
-(OpenRouter → Google AI Studio) e usam os Gemini como último recurso.
+Por que Gemini primeiro: os modelos Gemma, quando recebem `output_type` (enviado como `response_format`
+JSON), deixam de chamar tools e calculam sozinhos; os Gemini 3.x combinam tools e saída estruturada, então o
+assistente usa só `GEMINI_MODELS`. Os demais agentes também começam pelo Gemini — o Gemma gratuito esteve
+lento e instável durante o desenvolvimento — e caem na cadeia Gemma (OpenRouter → Google AI Studio) se o
+Gemini falhar.
 
 ## Uso
 
