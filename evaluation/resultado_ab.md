@@ -92,9 +92,11 @@ pergunta, e exige um banco. Em troca, os totais deixam de depender do modelo e p
 
 - Dois extratos sintéticos e pequenos; o efeito em extratos reais (centenas de linhas) tende a ser maior,
   mas não foi medido.
-- O gabarito foi elaborado pelo próprio autor; duas escolhas são discutíveis (`CONTA DE LUZ ENEL` →
-  Moradia e `ACADEMIA SMARTFIT` → Saúde). Como o classificador recebe essas regras no prompt, um gabarito
-  diferente exigiria ajustar também as instructions.
+- O gabarito foi elaborado no próprio projeto, não por terceiros. Os dois casos ambíguos foram revisados
+  pelo aluno: `CONTA DE LUZ ENEL` → Moradia, porque `Serviços/Assinaturas` reúne despesas opcionais e a
+  conta de luz é um custo fixo da casa; `ACADEMIA SMARTFIT` → Saúde, apesar de também caber em Lazer. Como o
+  classificador recebe essas regras no prompt, um gabarito diferente exigiria ajustar também as
+  instructions.
 - Três execuções por variante: suficiente para mostrar que o erro de A é sistemático, não para estimar sua
   distribuição.
 - Medido com `gemini-3.5-flash-lite`. Uma primeira tentativa com o Gemma gratuito foi interrompida por

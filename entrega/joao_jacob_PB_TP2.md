@@ -240,8 +240,8 @@ código —, como foram detectados e como foram resolvidos estão listados em `d
   execuções, e o Gemma no Google teve erros 500/503 e JSON inválido. Por isso o Gemini virou a primeira
   opção; execuções anteriores a essa troca (importação e primeiros diagnósticos) usaram Gemma, e o modelo
   de cada etapa está registrado nos logs.
-- A avaliação usa dois extratos sintéticos e um gabarito feito pelo próprio autor; o ciclo PRRR teve uma
-  execução por versão.
+- A avaliação usa dois extratos sintéticos e um gabarito elaborado no próprio projeto (os dois casos
+  ambíguos — conta de luz e academia — foram revisados pelo aluno); o ciclo PRRR teve uma execução por versão.
 - Perguntas que exigem contas sem tool correspondente agora são recusadas parcialmente (v2); a evolução
   natural é criar tools para esses casos.
 - Próximas etapas: FastAPI (`/run`, `/status`), servidor MCP com as tools de cálculo e o fluxo n8n com
