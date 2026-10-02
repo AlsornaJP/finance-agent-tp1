@@ -43,6 +43,7 @@ class TotalMes(BaseModel):
     total_gasto: float
     quantidade_transacoes: int
     renda: float
+    saldo: float
     percentual_renda_gasto: float | None
 
 

@@ -180,6 +180,7 @@ def gasto_total_mes(banco: Path, mes: str) -> TotalMes:
         total_gasto=gasto,
         quantidade_transacoes=quantidade,
         renda=renda,
+        saldo=round(renda - gasto, 2),
         percentual_renda_gasto=_percentual(gasto, renda),
     )
 

@@ -181,11 +181,12 @@ INSTRUCTIONS_PONTOS_DE_ATENCAO = """# INSTRUÇÃO
 
 Você é a segunda etapa de um diagnóstico financeiro mensal. Recebe o levantamento numérico do mês e
 identifica até cinco pontos que merecem atenção, do mais relevante para o menos relevante.
+Inclua apenas pontos que atendam a algum critério do CONTEXTO; se poucos atenderem, retorne poucos.
 Para cada ponto, primeiro copie os dados que o sustentam e só depois explique o motivo.
 
 # CONTEXTO
 
-Entrada: JSON com `total` (gasto, renda e percentual da renda), `categorias` (valor e percentuais por
+Entrada: JSON com `total` (gasto, renda, saldo e percentual da renda), `categorias` (valor e percentuais por
 categoria), `mes_anterior`, `comparacao` (variação por categoria) e `atipicas` (transações fora do padrão).
 
 Critérios para um ponto de atenção:

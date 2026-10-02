@@ -28,7 +28,7 @@ def aviso_mes_sem_dados(banco: Path, mes: str) -> str | None:
 
 @function_tool
 def gasto_total_mes(ctx: RunContextWrapper[ContextoFinanceiro], mes: str) -> str:
-    """Retorna o total gasto, a quantidade de despesas, a renda do mês e o percentual da renda que foi gasto.
+    """Retorna o total gasto, a quantidade de despesas, a renda, o saldo (renda menos gasto) e o percentual da renda gasto.
 
     Args:
         mes: Mês no formato AAAA-MM, por exemplo 2024-04.

@@ -72,3 +72,8 @@ def test_listar_transacoes_filtra_por_categoria(banco_classificado):
 def test_listar_transacoes_rejeita_categoria_desconhecida(banco_classificado):
     with pytest.raises(ValueError, match="Categorias válidas"):
         database.listar_transacoes(banco_classificado, "2024-04", "Habitação")
+
+
+def test_gasto_total_mes_informa_saldo_do_mes(banco_classificado):
+    assert database.gasto_total_mes(banco_classificado, "2024-04").saldo == -1073.35
+    assert database.gasto_total_mes(banco_classificado, "2024-03").saldo == 1747.7
