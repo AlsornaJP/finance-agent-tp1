@@ -1,7 +1,7 @@
 # TP2 — Agente de Finanças Pessoais: ferramentas, raciocínio encadeado, memória e avaliação
 
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5 · **Projeto de Bloco — Agentes Inteligentes**
-**Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1> (branch `tp2`)
+**Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
 **Vídeo:** `<link do YouTube — preencher>`
 
 ## 1. Introdução
