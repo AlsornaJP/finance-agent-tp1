@@ -96,6 +96,7 @@ Resultados e decisões: `evaluation/resultado_ab.md` e `evaluation/prrr.md`.
 - Entregáveis de arquitetura: `docs/tp2/entregaveis.md`
 - Prompts encadeados e outputs intermediários: `prompts/tp2_*.md`
 - Registro do planejamento com o assistente de IA: `docs/tp2/registro_planejamento.md`
+- Problemas encontrados e resolvidos: `docs/tp2/problemas_resolvidos.md`
 
 ## TP1
 

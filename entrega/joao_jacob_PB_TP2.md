@@ -231,6 +231,9 @@ Detalhes, diffs e limitações em `evaluation/prrr.md`.
 | Timeout de 180 s e 1 retentativa por chamada | Gemma sob alta demanda travava até ~10 min antes do fallback |
 | Sem handoffs no TP2 | O enunciado não pede; o roteamento multiagente fica para n8n (Etapa 5) |
 
+Todos os problemas encontrados durante a implementação — de modelos, de comportamento do LLM e bugs de
+código —, como foram detectados e como foram resolvidos estão listados em `docs/tp2/problemas_resolvidos.md`.
+
 ## 10. Limitações e próximos passos
 
 - Os modelos gratuitos estiveram instáveis durante o trabalho: o OpenRouter devolveu 429 em todas as
@@ -248,5 +251,6 @@ Detalhes, diffs e limitações em `evaluation/prrr.md`.
 
 - Repositório: <https://github.com/AlsornaJP/finance-agent-tp1>
 - Vídeo: `<link do YouTube — preencher>`
+- Problemas encontrados e resolvidos: `docs/tp2/problemas_resolvidos.md`
 - Especificação e plano do TP2: `docs/superpowers/specs/2026-10-02-tp2-design.md`,
   `docs/superpowers/plans/2026-10-02-tp2.md`
