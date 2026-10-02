@@ -7,6 +7,7 @@ from pathlib import Path
 from agent.config import ConfigError, load_settings
 from agent.database import CAMINHO_BANCO_PADRAO
 from agent.consulta import perguntar
+from agent.diagnostico import diagnosticar
 from agent.importacao import importar
 from agent.runner import FalhaDeExecucao, RateLimitAtingido
 
@@ -28,9 +29,21 @@ async def _perguntar(argumentos: argparse.Namespace) -> None:
     print(f"\n[perguntar] log salvo em {resultado.log}")
 
 
+async def _diagnosticar(argumentos: argparse.Namespace) -> None:
+    diagnostico, log = await diagnosticar(argumentos.banco, argumentos.mes, load_settings())
+    print(f"\n{diagnostico.resumo}\n")
+    for avaliacao in diagnostico.avaliacoes:
+        print(f"  [{avaliacao.situacao}] {avaliacao.assunto}: {avaliacao.explicacao}")
+    print()
+    for recomendacao in sorted(diagnostico.recomendacoes, key=lambda item: item.prioridade):
+        print(f"  {recomendacao.prioridade}. {recomendacao.acao}")
+    print(f"\n[diagnosticar] log salvo em {log}")
+
+
 COMANDOS: dict[str, Callable[[argparse.Namespace], Awaitable[None]]] = {
     "importar": _importar,
     "perguntar": _perguntar,
+    "diagnosticar": _diagnosticar,
 }
 
 
@@ -46,6 +59,10 @@ def _parser() -> argparse.ArgumentParser:
     comando_perguntar.add_argument("pergunta")
     comando_perguntar.add_argument("--sessao", required=True)
     comando_perguntar.add_argument("--banco", type=Path, default=CAMINHO_BANCO_PADRAO)
+
+    comando_diagnosticar = subcomandos.add_parser("diagnosticar", help="Gera o diagnóstico de um mês em etapas")
+    comando_diagnosticar.add_argument("--mes", required=True)
+    comando_diagnosticar.add_argument("--banco", type=Path, default=CAMINHO_BANCO_PADRAO)
 
     return parser
 

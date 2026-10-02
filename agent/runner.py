@@ -69,7 +69,8 @@ def montar_tentativas(settings: Settings, key_index: int, com_tools: bool) -> li
     tentativas = [Tentativa(f"OpenRouter/{key_name}", client, model) for model in settings.modelos]
     if settings.google_api_key:
         pessoal = google_client(settings)
-        tentativas += [Tentativa(PROVEDOR_GOOGLE, pessoal, modelo_no_google(model)) for model in settings.modelos]
+        modelos_google = [modelo_no_google(model) for model in settings.modelos] + list(settings.google_tool_models)
+        tentativas += [Tentativa(PROVEDOR_GOOGLE, pessoal, model) for model in modelos_google]
     return tentativas
 
 

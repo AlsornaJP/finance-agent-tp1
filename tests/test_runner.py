@@ -39,11 +39,12 @@ def test_restaurar_sessao_sem_sessao_nao_faz_nada():
     asyncio.run(restaurar_sessao(None, 0))
 
 
-def test_tentativas_sem_tools_seguem_cadeia_gemma():
+def test_tentativas_sem_tools_seguem_cadeia_gemma_com_gemini_por_ultimo():
     tentativas = montar_tentativas(_settings(), 0, com_tools=False)
     assert [(t.provedor, t.model) for t in tentativas] == [
         ("OpenRouter/OPENAI_API_KEY", "google/gemma-4-31b-it:free"),
         ("GoogleAIStudio/chave-pessoal", "gemma-4-31b-it"),
+        ("GoogleAIStudio/chave-pessoal", "gemini-3.5-flash-lite"),
     ]
 
 
