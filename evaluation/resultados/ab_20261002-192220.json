@@ -1,0 +1,242 @@
+[
+  {
+    "variante": "A_sem_tools",
+    "csv": "extrato_1_mes.csv",
+    "execucao": 1,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 1648.45,
+      "Alimentação": 2328.35,
+      "Transporte": 285.2,
+      "Serviços/Assinaturas": 61.8,
+      "Saúde": 187.2,
+      "Lazer": 64.0,
+      "Educação": 249.0,
+      "Não identificado": 27.0,
+      "Compras": 459.9
+    }
+  },
+  {
+    "variante": "B_com_tools",
+    "csv": "extrato_1_mes.csv",
+    "execucao": 1,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Alimentação": 2328.35,
+      "Moradia": 1648.45,
+      "Compras": 459.9,
+      "Transporte": 285.2,
+      "Educação": 249.0,
+      "Saúde": 187.2,
+      "Lazer": 64.0,
+      "Serviços/Assinaturas": 61.8,
+      "Não identificado": 27.0
+    }
+  },
+  {
+    "variante": "A_sem_tools",
+    "csv": "extrato_1_mes.csv",
+    "execucao": 2,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 1648.45,
+      "Alimentação": 2328.35,
+      "Transporte": 285.2,
+      "Serviços/Assinaturas": 61.8,
+      "Saúde": 187.2,
+      "Lazer": 64.0,
+      "Educação": 249.0,
+      "Não identificado": 27.0,
+      "Compras": 459.9
+    }
+  },
+  {
+    "variante": "B_com_tools",
+    "csv": "extrato_1_mes.csv",
+    "execucao": 2,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Alimentação": 2328.35,
+      "Moradia": 1648.45,
+      "Compras": 459.9,
+      "Transporte": 285.2,
+      "Educação": 249.0,
+      "Saúde": 187.2,
+      "Lazer": 64.0,
+      "Serviços/Assinaturas": 61.8,
+      "Não identificado": 27.0
+    }
+  },
+  {
+    "variante": "A_sem_tools",
+    "csv": "extrato_1_mes.csv",
+    "execucao": 3,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 1648.45,
+      "Alimentação": 2328.35,
+      "Transporte": 285.2,
+      "Serviços/Assinaturas": 61.8,
+      "Saúde": 187.2,
+      "Lazer": 64.0,
+      "Educação": 249.0,
+      "Não identificado": 27.0,
+      "Compras": 459.9
+    }
+  },
+  {
+    "variante": "B_com_tools",
+    "csv": "extrato_1_mes.csv",
+    "execucao": 3,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Alimentação": 2328.35,
+      "Moradia": 1648.45,
+      "Compras": 459.9,
+      "Transporte": 285.2,
+      "Educação": 249.0,
+      "Saúde": 187.2,
+      "Lazer": 64.0,
+      "Serviços/Assinaturas": 61.8,
+      "Não identificado": 27.0
+    }
+  },
+  {
+    "variante": "A_sem_tools",
+    "csv": "extrato_2_meses.csv",
+    "execucao": 1,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 0.6667,
+    "erro_absoluto_total": 228.1,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 3291.3,
+      "Alimentação": 3204.15,
+      "Serviços/Assinaturas": 203.6,
+      "Transporte": 744.6,
+      "Saúde": 424.2,
+      "Lazer": 130.0,
+      "Compras": 344.9,
+      "Educação": 178.0,
+      "Não identificado": 33.0
+    }
+  },
+  {
+    "variante": "B_com_tools",
+    "csv": "extrato_2_meses.csv",
+    "execucao": 1,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 3291.3,
+      "Alimentação": 3236.05,
+      "Transporte": 564.6,
+      "Compras": 344.9,
+      "Educação": 178.0,
+      "Saúde": 424.2,
+      "Serviços/Assinaturas": 123.6,
+      "Lazer": 130.0,
+      "Não identificado": 33.0
+    }
+  },
+  {
+    "variante": "A_sem_tools",
+    "csv": "extrato_2_meses.csv",
+    "execucao": 2,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 0.6667,
+    "erro_absoluto_total": 228.1,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 3291.3,
+      "Alimentação": 3204.15,
+      "Serviços/Assinaturas": 203.6,
+      "Transporte": 744.6,
+      "Saúde": 424.2,
+      "Lazer": 130.0,
+      "Compras": 344.9,
+      "Educação": 178.0,
+      "Não identificado": 33.0
+    }
+  },
+  {
+    "variante": "B_com_tools",
+    "csv": "extrato_2_meses.csv",
+    "execucao": 2,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 3291.3,
+      "Alimentação": 3236.05,
+      "Transporte": 564.6,
+      "Compras": 344.9,
+      "Educação": 178.0,
+      "Saúde": 424.2,
+      "Serviços/Assinaturas": 123.6,
+      "Lazer": 130.0,
+      "Não identificado": 33.0
+    }
+  },
+  {
+    "variante": "A_sem_tools",
+    "csv": "extrato_2_meses.csv",
+    "execucao": 3,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 0.6667,
+    "erro_absoluto_total": 51.9,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 3191.3,
+      "Alimentação": 3204.15,
+      "Serviços/Assinaturas": 203.6,
+      "Transporte": 564.6,
+      "Saúde": 424.2,
+      "Lazer": 130.0,
+      "Compras": 344.9,
+      "Educação": 178.0,
+      "Não identificado": 33.0
+    }
+  },
+  {
+    "variante": "B_com_tools",
+    "csv": "extrato_2_meses.csv",
+    "execucao": 3,
+    "modelo": "gemini-3.5-flash-lite",
+    "precisao_numerica": 1.0,
+    "erro_absoluto_total": 0.0,
+    "acuracia_classificacao": 1.0,
+    "totais_obtidos": {
+      "Moradia": 3291.3,
+      "Alimentação": 3236.05,
+      "Transporte": 564.6,
+      "Compras": 344.9,
+      "Educação": 178.0,
+      "Saúde": 424.2,
+      "Serviços/Assinaturas": 123.6,
+      "Lazer": 130.0,
+      "Não identificado": 33.0
+    }
+  }
+]

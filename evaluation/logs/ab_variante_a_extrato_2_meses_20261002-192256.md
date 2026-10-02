@@ -1,0 +1,307 @@
+# Avaliação A/B — variante A (sem tools)
+
+**Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
+
+- Timestamp: 2026-10-02T19:22:56
+- CSV: samples/extrato_2_meses.csv
+- Modelo: gemini-3.5-flash-lite
+
+## Output
+
+```json
+{
+  "transacoes": [
+    {
+      "data": "2024-03-02",
+      "descricao": "ALUGUEL APTO 302",
+      "valor": 1450.0,
+      "categoria": "Moradia"
+    },
+    {
+      "data": "2024-03-03",
+      "descricao": "SUPERMERCADO BOM PRECO",
+      "valor": 298.4,
+      "categoria": "Alimentação"
+    },
+    {
+      "data": "2024-03-05",
+      "descricao": "IFOOD *RESTAURANTE SAO PAULO",
+      "valor": 52.9,
+      "categoria": "Alimentação"
+    },
+    {
+      "data": "2024-03-06",
+      "descricao": "NETFLIX.COM",
+      "valor": 39.9,
+      "categoria": "Serviços/Assinaturas"
+    },
+    {
+      "data": "2024-03-07",
+      "descricao": "POSTO IPIRANGA COMBUSTIVEL",
+      "valor": 160.0,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-03-09",
+      "descricao": "UBER *TRIP",
+      "valor": 24.3,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-03-11",
+      "descricao": "DROGARIA SAO PAULO",
+      "valor": 74.2,
+      "categoria": "Saúde"
+    },
+    {
+      "data": "2024-03-13",
+      "descricao": "CINEMA CINEMARK",
+      "valor": 58.0,
+      "categoria": "Lazer"
+    },
+    {
+      "data": "2024-03-16",
+      "descricao": "CONTA DE LUZ ENEL",
+      "valor": 187.2,
+      "categoria": "Moradia"
+    },
+    {
+      "data": "2024-03-18",
+      "descricao": "PADARIA CENTRAL",
+      "valor": 31.5,
+      "categoria": "Alimentação"
+    },
+    {
+      "data": "2024-03-20",
+      "descricao": "SPOTIFY BRASIL",
+      "valor": 21.9,
+      "categoria": "Serviços/Assinaturas"
+    },
+    {
+      "data": "2024-03-22",
+      "descricao": "MAGAZINE LUIZA",
+      "valor": 215.0,
+      "categoria": "Compras"
+    },
+    {
+      "data": "2024-03-25",
+      "descricao": "PLATAFORMA ALURA CURSOS",
+      "valor": 89.0,
+      "categoria": "Educação"
+    },
+    {
+      "data": "2024-03-28",
+      "descricao": "METRO SP RECARGA",
+      "valor": 50.0,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-04-02",
+      "descricao": "ALUGUEL APTO 302",
+      "valor": 1450.0,
+      "categoria": "Moradia"
+    },
+    {
+      "data": "2024-04-03",
+      "descricao": "SUPERMERCADO BOM PRECO",
+      "valor": 341.85,
+      "categoria": "Alimentação"
+    },
+    {
+      "data": "2024-04-04",
+      "descricao": "UBER *TRIP",
+      "valor": 28.7,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-04-05",
+      "descricao": "IFOOD *RESTAURANTE SAO PAULO",
+      "valor": 61.4,
+      "categoria": "Alimentação"
+    },
+    {
+      "data": "2024-04-06",
+      "descricao": "NETFLIX.COM",
+      "valor": 39.9,
+      "categoria": "Serviços/Assinaturas"
+    },
+    {
+      "data": "2024-04-08",
+      "descricao": "POSTO IPIRANGA COMBUSTIVEL",
+      "valor": 210.0,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-04-10",
+      "descricao": "CONSULTA MEDICA CLINICA VIDA",
+      "valor": 350.0,
+      "categoria": "Saúde"
+    },
+    {
+      "data": "2024-04-12",
+      "descricao": "UBER *TRIP",
+      "valor": 41.6,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-04-14",
+      "descricao": "RESTAURANTE OUTBACK",
+      "valor": 2450.0,
+      "categoria": "Alimentação"
+    },
+    {
+      "data": "2024-04-15",
+      "descricao": "CONTA DE LUZ ENEL",
+      "valor": 204.1,
+      "categoria": "Moradia"
+    },
+    {
+      "data": "2024-04-17",
+      "descricao": "PAG*7X4K9ZQ",
+      "valor": 33.0,
+      "categoria": "Não identificado"
+    },
+    {
+      "data": "2024-04-19",
+      "descricao": "SPOTIFY BRASIL",
+      "valor": 21.9,
+      "categoria": "Serviços/Assinaturas"
+    },
+    {
+      "data": "2024-04-21",
+      "descricao": "MAGAZINE LUIZA",
+      "valor": 129.9,
+      "categoria": "Compras"
+    },
+    {
+      "data": "2024-04-23",
+      "descricao": "PLATAFORMA ALURA CURSOS",
+      "valor": 89.0,
+      "categoria": "Educação"
+    },
+    {
+      "data": "2024-04-26",
+      "descricao": "METRO SP RECARGA",
+      "valor": 50.0,
+      "categoria": "Transporte"
+    },
+    {
+      "data": "2024-04-28",
+      "descricao": "CINEMA CINEMARK",
+      "valor": 72.0,
+      "categoria": "Lazer"
+    }
+  ],
+  "periodo_analisado": "2024-03-01 a 2024-04-28",
+  "total_gasto": 8783.35,
+  "resumo_por_categoria": [
+    {
+      "categoria": "Moradia",
+      "valor_total": 3291.3,
+      "quantidade_transacoes": 4
+    },
+    {
+      "categoria": "Alimentação",
+      "valor_total": 3204.15,
+      "quantidade_transacoes": 5
+    },
+    {
+      "categoria": "Serviços/Assinaturas",
+      "valor_total": 203.6,
+      "quantidade_transacoes": 4
+    },
+    {
+      "categoria": "Transporte",
+      "valor_total": 744.6,
+      "quantidade_transacoes": 6
+    },
+    {
+      "categoria": "Saúde",
+      "valor_total": 424.2,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Lazer",
+      "valor_total": 130.0,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Compras",
+      "valor_total": 344.9,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Educação",
+      "valor_total": 178.0,
+      "quantidade_transacoes": 2
+    },
+    {
+      "categoria": "Não identificado",
+      "valor_total": 33.0,
+      "quantidade_transacoes": 1
+    }
+  ],
+  "gastos_anomalos": [
+    {
+      "transacao": "2024-04-14, RESTAURANTE OUTBACK, 2450.00",
+      "motivo_anomalia": "valor cerca de 21x a média das demais despesas de Alimentação no período"
+    }
+  ],
+  "comparacao_mes_anterior": [
+    {
+      "categoria": "Moradia",
+      "valor_atual": 1654.1,
+      "valor_anterior": 1637.2,
+      "variacao": "+1,0%"
+    },
+    {
+      "categoria": "Alimentação",
+      "valor_atual": 2914.15,
+      "valor_anterior": 383.8,
+      "variacao": "+659,3%"
+    },
+    {
+      "categoria": "Transporte",
+      "valor_atual": 330.3,
+      "valor_anterior": 414.3,
+      "variacao": "-20,3%"
+    },
+    {
+      "categoria": "Serviços/Assinaturas",
+      "valor_atual": 101.8,
+      "valor_anterior": 101.8,
+      "variacao": "0,0%"
+    },
+    {
+      "categoria": "Saúde",
+      "valor_atual": 350.0,
+      "valor_anterior": 74.2,
+      "variacao": "+371,7%"
+    },
+    {
+      "categoria": "Lazer",
+      "valor_atual": 72.0,
+      "valor_anterior": 58.0,
+      "variacao": "+24,1%"
+    },
+    {
+      "categoria": "Compras",
+      "valor_atual": 129.9,
+      "valor_anterior": 215.0,
+      "variacao": "-39,6%"
+    },
+    {
+      "categoria": "Educação",
+      "valor_atual": 89.0,
+      "valor_anterior": 89.0,
+      "variacao": "0,0%"
+    },
+    {
+      "categoria": "Não identificado",
+      "valor_atual": 33.0,
+      "valor_anterior": 0.0,
+      "variacao": "+100,0%"
+    }
+  ]
+}
+```
