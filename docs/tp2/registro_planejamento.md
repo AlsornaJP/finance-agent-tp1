@@ -208,3 +208,27 @@ batem com o total real apurado no TP1 (R$ 8.325,65 no extrato de dois meses).
 | Vídeo | YouTube, link no README | Aluno |
 | Regra de anomalia, deduplicação, PDF | Ajustes técnicos propostos pelo assistente | Assistente, informado ao aluno |
 | Execução do plano | Na mesma sessão, com revisão final da branch | Aluno |
+
+## 6. Execução do plano (resumo)
+
+O plano foi executado na mesma sessão, tarefa por tarefa, com testes escritos antes do código (TDD) e um
+commit por etapa na branch `tp2`. Decisões tomadas durante a execução:
+
+| Situação encontrada | Decisão |
+| --- | --- |
+| Na verificação inicial, o Gemma **ignorou as tools** quando o agente tinha `output_type`, calculando sozinho e sem erro | Agentes com tools passaram a usar modelos Gemini 3.x, que combinam tools e saída estruturada (autorizado pelo aluno no planejamento) |
+| Criar o schema SQLite levava 2,3 s por banco (um fsync por tabela), e a suíte de testes, 59 s | Schema criado em uma única transação; suíte em ~6 s |
+| O Gemma no Google respondia com erros 500/503 e JSON inválido, às vezes após ~10 minutos | Timeout de 180 s e 1 retentativa por chamada; Gemini como último recurso |
+| No PRRR, a v1 somou duas categorias por conta própria, e a métrica original não percebeu | Nova métrica sobre os números do texto; prompt v2 proíbe a conta e exige citar todo número |
+| No diagnóstico, o LLM calculou o déficit do mês e inventou pontos de atenção para completar a lista | Saldo calculado em Python; etapa 2 restrita aos critérios |
+| Revisando os logs do diagnóstico, apareceu um bug: pontos com o mesmo assunto perdiam seus trechos do guia | Corrigido com teste (lista na ordem dos pontos) |
+
+> **Aluno (durante a avaliação A/B):** falta muito?
+
+O assistente informou o que estava pronto, o que faltava e a estimativa (cerca de 1 hora, quase toda de
+espera do modelo Gemma), oferecendo reduzir as execuções.
+
+> **Aluno:** interrompa A/B e troque o modelo por algum gemini, não da pra ficar uma hora esperando
+
+O A/B foi interrompido e o Gemini passou a ser a primeira opção de todos os agentes (`GEMINI_MODELS`), com
+o Gemma como fallback. A avaliação completa (12 execuções) terminou em cerca de 2 minutos.
