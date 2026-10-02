@@ -1,14 +1,4 @@
-CATEGORIAS = (
-    "Alimentação",
-    "Transporte",
-    "Moradia",
-    "Saúde",
-    "Educação",
-    "Lazer",
-    "Compras",
-    "Serviços/Assinaturas",
-    "Não identificado",
-)
+from agent.schema import CATEGORIAS
 
 INSTRUCTIONS_PARTE_3 = """Você é um analista de finanças pessoais.
 
