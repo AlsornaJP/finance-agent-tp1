@@ -1,90 +1,103 @@
-# Agente de Análise de Finanças Pessoais (TP1)
+# Agente de Análise de Finanças Pessoais (Projeto de Bloco — TP1 e TP2)
 
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
 **Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
+**Vídeo do TP2:** `<link do YouTube — preencher>`
 
+Agente construído com o **OpenAI Agents SDK**, acessando modelos via **OpenRouter** e **Google AI Studio**.
+Importa extratos bancários em CSV para um banco SQLite, responde perguntas sobre os gastos usando tools e
+memória, e gera diagnósticos mensais em etapas.
 
-Agente single-turn construído com o **OpenAI Agents SDK**, acessando modelos via **OpenRouter**.
-Recebe o conteúdo bruto de um CSV de extrato bancário e devolve uma análise de gastos.
+Princípio central do TP2: **o LLM nunca faz conta**. Leitura do CSV, somas, percentuais, variações e o
+critério de anomalia são código Python determinístico, exposto ao modelo como tools. O LLM classifica,
+interpreta e redige.
 
 ## Estrutura
 
 ```
 agent/
-  config.py          Leitura do .env, cliente OpenRouter e configuração do SDK
-  prompts.py         Instructions das Partes 3, 4 e 5 (anatomia de 4 componentes)
-  schema.py          Schema Pydantic AnaliseFinanceira (output_type da Parte 5)
-  finance_agent.py   Construção do Agent por etapa
-  runner.py          Execução single-turn, fallback de modelo e rotação de chaves
-  execution_log.py   Persistência dos logs de execução
-prompts/
-  parte{3,4,5}_instructions.md   Prompts documentados
-  analise_resultados.md          Comparação entre as etapas e limitações observadas
-  outputs/                       Logs de execução (evidência para o relatório)
+  config.py          Leitura do .env e clientes OpenRouter / Google AI Studio
+  database.py        SQLite: schema, importação de CSV e todas as funções de cálculo
+  tools.py           @function_tool que expõem os cálculos e a busca do RAG ao agente
+  rag.py             Divisão do guia em trechos, embeddings, busca por cosseno, memórias
+  schema.py          Modelos Pydantic (saídas dos agentes e resultados das consultas)
+  prompts.py         Instructions de cada agente (anatomia de 4 componentes)
+  agents.py          Construção dos agentes
+  runner.py          Execução com fallback de modelos/chaves, sessão e restauração em falhas
+  importacao.py      Comando importar (classificação com chain-of-thought)
+  consulta.py        Comando perguntar (tools + SQLiteSession + memória semântica)
+  diagnostico.py     Comando diagnosticar (cadeia least-to-most)
+  rastreio.py        Extração das chamadas de tool para logs e métricas
+  execution_log.py   Logs de execução em Markdown
+knowledge/           Guia de orçamento (fonte não estruturada do RAG)
+evaluation/          Gabarito, métricas, avaliação A/B e ciclo PRRR
+docs/tp2/            Entregáveis de arquitetura (gatilho, fontes, diagrama, fluxo, dados)
+prompts/             Prompts documentados e logs de execução (prompts/outputs/)
 samples/             CSVs de exemplo (1 mês e 2 meses)
-spec/                Especificação do problema e arquitetura
-main.py              CLI de execução
+tests/               Testes pytest da parte determinística
+main.py              CLI
 ```
 
 ## Configuração
 
 ```bash
-uv sync                      # ou: python -m venv .venv && pip install -r requirements.txt
-cp .env.example .env         # preencha as chaves do OpenRouter
+uv sync                      # ou: python -m venv .venv && pip install -r requirements.txt pytest
+cp .env.example .env         # preencha as chaves
 ```
-
-Variáveis de ambiente:
 
 | Variável | Uso |
 | --- | --- |
-| `OPENAI_API_KEY` | Chave principal do OpenRouter |
-| `OPENAI_SECOND_API_KEY`, `OPENAI_THIRD_API_KEY` | Chaves alternativas, usadas só mediante confirmação ao atingir rate limit |
+| `OPENAI_API_KEY`, `OPENAI_SECOND_API_KEY`, `OPENAI_THIRD_API_KEY` | Chaves do OpenRouter (rotação mediante confirmação) |
 | `OPENAI_BASE_URL` | `https://openrouter.ai/api/v1` |
-| `OPENAI_DEFAULT_MODEL` | Modelo principal |
-| `OPENAI_FALLBACK_MODEL` | Modelo de backup se o principal falhar |
-| `OPENAI_AGENTS_DISABLE_TRACING` | `1` desativa o tracing nativo do SDK (incompatível com OpenRouter) |
-| `GOOGLE_API_KEY` | Opcional. Chave pessoal do Google AI Studio, usada como provedor de fallback |
-| `GOOGLE_BASE_URL` | Endpoint compatível com OpenAI do AI Studio (tem padrão embutido) |
+| `OPENAI_DEFAULT_MODEL`, `OPENAI_FALLBACK_MODEL` | Modelos Gemma dos agentes sem tools |
+| `GOOGLE_API_KEY`, `GOOGLE_BASE_URL` | Google AI Studio: fallback de modelos e embeddings |
+| `GOOGLE_EMBEDDING_MODEL` | Embeddings do RAG (`gemini-embedding-001`) |
+| `GOOGLE_TOOL_MODELS` | Modelos Gemini dos agentes com tools, ex.: `gemini-3.5-flash-lite,gemini-3.1-flash-lite` |
+| `OPENAI_AGENTS_DISABLE_TRACING` | `1` desativa o tracing nativo do SDK |
 
-### Cadeia de fallback
+Por que dois grupos de modelos: os modelos Gemma, quando recebem `output_type` (enviado como
+`response_format` JSON), deixam de chamar tools e calculam sozinhos. Os Gemini 3.x combinam tools e saída
+estruturada, então o assistente usa `GOOGLE_TOOL_MODELS`. Os demais agentes seguem a cadeia Gemma
+(OpenRouter → Google AI Studio) e usam os Gemini como último recurso.
 
-Cada execução tenta, em ordem, até obter resposta:
-
-1. OpenRouter com `OPENAI_DEFAULT_MODEL`
-2. OpenRouter com `OPENAI_FALLBACK_MODEL`
-3. Google AI Studio com os mesmos modelos, na cota pessoal da chave (só se `GOOGLE_API_KEY` estiver definida)
-
-Os modelos `:free` do OpenRouter compartilham um pool com o provedor original; quando ele satura,
-todas as chaves do OpenRouter recebem 429 e trocar de chave não adianta — daí o fallback para a
-cota pessoal do AI Studio. O nome do modelo é convertido automaticamente
-(`google/gemma-4-31b-it:free` -> `gemma-4-31b-it`), então o `.env` continua com um único nome de modelo.
-
-## Execução
+## Uso
 
 ```bash
-python main.py parte3                          # output em texto livre
-python main.py parte4                          # output com prompt refinado
-python main.py parte5                          # output JSON estruturado (2 CSVs)
-python main.py parte5 --csv caminho/extrato.csv
+python main.py importar samples/extrato_2_meses.csv
+python main.py perguntar --sessao joao "Quanto gastei com Alimentação em abril de 2024 e isso está dentro do recomendado?"
+python main.py diagnosticar --mes 2024-04
 ```
 
-Cada execução grava um log em `prompts/outputs/` com instructions, input, output e erros.
-A Parte 5 grava também o JSON de `result.final_output` validado pelo schema Pydantic.
+Demonstração de memória (cada comando é um processo novo):
 
-## Decisões de design
+```bash
+python main.py perguntar --sessao joao "E em março?"                                  # SQLiteSession
+python main.py perguntar --sessao joao-1 "Minha meta é gastar no máximo R$ 100 por mês com Lazer."
+python main.py perguntar --sessao joao-2 "Estou dentro da minha meta de lazer em abril de 2024?"   # RAG sobre interações
+```
 
-- Sem `@function_tool`: o CSV vai como texto bruto no prompt e toda a análise é raciocínio do LLM.
-- Operação single-turn: uma chamada, um CSV, uma resposta.
-- A Parte 5 usa `output_type`, então `result.final_output` já é uma instância de `AnaliseFinanceira`.
-- Ao atingir o rate limit diário, o agente avisa e pergunta antes de usar a próxima chave.
+Cada execução grava um log em `prompts/outputs/` com instructions, input, chamadas de tool (argumentos e
+retorno) e a saída validada pelo Pydantic.
 
-## Limitação conhecida
+## Testes e avaliação
 
-Na Parte 5, a saída estruturada degrada a precisão aritmética do modelo. O campo `transacoes`
-melhora muito a extração sem torná-la confiável — em quatro execuções, a soma da lista bateu com o
-CSV em duas, e nenhuma reproduziu o extrato fielmente (duplicações, descrições corrompidas, datas
-alteradas). Já `total_gasto` e `resumo_por_categoria` divergem da própria lista em todas as
-execuções, sempre em categorias com cinco ou mais transações.
-`main.py` verifica as três consistências a cada execução e marca `[DIVERGE]` no que não fecha, em
-vez de mascarar. Causa, evidências e mitigações em `prompts/analise_resultados.md`. A correção via
-`@function_tool` é escopo do trabalho seguinte.
+```bash
+.venv/bin/pytest                                   # parte determinística
+python -m evaluation.avaliar_ab --execucoes 3      # A/B: sem tools (TP1) × com tools (TP2)
+python -m evaluation.avaliar_prrr v1               # ciclo Prompt-Response-Reflect-Revise
+```
+
+Resultados e decisões: `evaluation/resultado_ab.md` e `evaluation/prrr.md`.
+
+## Documentação do TP2
+
+- Relatório técnico: `entrega/joao_jacob_PB_TP2.md`
+- Entregáveis de arquitetura: `docs/tp2/entregaveis.md`
+- Prompts encadeados e outputs intermediários: `prompts/tp2_*.md`
+- Registro do planejamento com o assistente de IA: `docs/tp2/registro_planejamento.md`
+
+## TP1
+
+Os artefatos do TP1 continuam no repositório: `spec/`, `prompts/parte*_instructions.md`,
+`prompts/analise_resultados.md`, os logs `prompts/outputs/parte*` e `entrega/TP1_*`. O prompt da Parte 5
+(CSV no prompt, sem tools) é reaproveitado como variante A da avaliação do TP2.
