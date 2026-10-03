@@ -21,3 +21,6 @@ entrega/*.mp4
 
 # Banco local do agente (transações, sessões, memórias)
 data/
+
+# Cortes brutos da gravação do vídeo do TP2
+entrega/cortes/
