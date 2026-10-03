@@ -2,7 +2,7 @@
 
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
 **Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
-**Vídeo do TP2:** `<link do YouTube — preencher>`
+**Vídeo do TP2:** <https://youtu.be/fOuFfmOxcTg>
 
 Agente construído com o **OpenAI Agents SDK**, acessando modelos via **OpenRouter** e **Google AI Studio**.
 Importa extratos bancários em CSV para um banco SQLite, responde perguntas sobre os gastos usando tools e

@@ -2,7 +2,7 @@
 
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5 · **Projeto de Bloco — Agentes Inteligentes**
 **Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
-**Vídeo:** `<link do YouTube — preencher>`
+**Vídeo:** <https://youtu.be/fOuFfmOxcTg>
 
 ## 1. Introdução
 
@@ -250,7 +250,7 @@ código —, como foram detectados e como foram resolvidos estão listados em `d
 ## 11. Links
 
 - Repositório: <https://github.com/AlsornaJP/finance-agent-tp1>
-- Vídeo: `<link do YouTube — preencher>`
+- Vídeo: <https://youtu.be/fOuFfmOxcTg>
 - Problemas encontrados e resolvidos: `docs/tp2/problemas_resolvidos.md`
 - Especificação e plano do TP2: `docs/superpowers/specs/2026-10-02-tp2-design.md`,
   `docs/superpowers/plans/2026-10-02-tp2.md`
