@@ -1,4 +1,6 @@
-openai-agents>=0.21.1
+fastapi>=0.115
 openai>=1.109.1
+openai-agents>=0.21.1
 pydantic>=2.10
 python-dotenv>=1.0.1
+uvicorn>=0.30
