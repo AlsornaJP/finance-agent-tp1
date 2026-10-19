@@ -6,10 +6,10 @@ Dois serviços independentes. Nenhum chama o outro: quem encadeia é o n8n, só 
 
 | Agente | Responsabilidade | URL local | URL a partir do n8n (Docker) |
 |---|---|---|---|
-| Agente 1 — Finanças Pessoais | importa extratos, responde perguntas, gera diagnóstico mensal | `http://localhost:8001` | `http://host.docker.internal:8001` |
-| Agente 2 — Planejador de Metas | planeja uma meta de poupança com prazo a partir dos gastos de um mês | `http://localhost:8002` | `http://host.docker.internal:8002` |
+| Agente 1 — Finanças Pessoais | importa extratos, responde perguntas, gera diagnóstico mensal | `http://localhost:8001` | `http://local:8001` |
+| Agente 2 — Planejador de Metas | planeja uma meta de poupança com prazo a partir dos gastos de um mês | `http://localhost:8002` | `http://local:8002` |
 
-No Linux, o container do n8n precisa de `--add-host=host.docker.internal:host-gateway` (ou usar `http://172.17.0.1:<porta>`). Os serviços escutam em `0.0.0.0`.
+O container do n8n é criado com `--add-host=local:host-gateway`, que faz o nome `local` apontar para a máquina onde os agentes rodam (sem essa opção, usar `http://172.17.0.1:<porta>`). Os serviços escutam em `0.0.0.0`.
 
 ## Padrão comum
 

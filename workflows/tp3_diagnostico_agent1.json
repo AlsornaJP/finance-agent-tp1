@@ -15,7 +15,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://host.docker.internal:8001/run",
+        "url": "http://local:8001/run",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\n  \"acao\": \"diagnosticar\",\n  \"mes\": \"2024-04\"\n}",
@@ -46,7 +46,7 @@
     },
     {
       "parameters": {
-        "url": "=http://host.docker.internal:8001/status/{{ $('POST run').item.json.task_id }}",
+        "url": "=http://local:8001/status/{{ $('POST run').item.json.task_id }}",
         "options": {}
       },
       "id": "a1000000-0000-4000-8000-000000000004",

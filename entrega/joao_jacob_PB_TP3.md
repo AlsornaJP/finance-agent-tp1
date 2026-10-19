@@ -200,8 +200,8 @@ Iniciar (manual) → POST run (diagnosticar 2024-04) → Aguardar 15 s → GET s
                                    Resultado do agente 1 (status, resultado, erro)
 ```
 
-O n8n roda em Docker e acessa o agente em `http://host.docker.internal:8001` (container iniciado com
-`--add-host=host.docker.internal:host-gateway`).
+O n8n roda em Docker e acessa o agente em `http://local:8001` (container iniciado com
+`--add-host=local:host-gateway`).
 
 ![Workflow no n8n](capturas/n8n_workflow.png)
 
