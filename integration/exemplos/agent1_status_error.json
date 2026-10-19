@@ -1,0 +1,6 @@
+{
+  "task_id": "35a77651-03b0-4e01-bcb6-5ebc07880379",
+  "status": "error",
+  "resultado": null,
+  "erro": "ValueError: Não há transações para 2023-01. Meses disponíveis: 2024-03, 2024-04."
+}

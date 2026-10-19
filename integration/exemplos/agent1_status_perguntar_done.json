@@ -1,0 +1,24 @@
+{
+  "task_id": "c23eb29b-6e8e-4dae-84c5-07f56f4322bf",
+  "status": "done",
+  "resultado": {
+    "resposta": {
+      "resposta": "Em abril de 2024 você gastou R$ 2853,25 com Alimentação, em 3 transações.",
+      "valores_citados": [
+        {
+          "descricao": "Gasto com Alimentação em 2024-04",
+          "valor": 2853.25,
+          "ferramenta": "gastos_por_categoria"
+        },
+        {
+          "descricao": "Quantidade de transações de Alimentação em 2024-04",
+          "valor": 3.0,
+          "ferramenta": "gastos_por_categoria"
+        }
+      ],
+      "fontes_conhecimento": []
+    },
+    "log": "prompts/outputs/perguntar_tp3-demo_20261019-192714.md"
+  },
+  "erro": null
+}
