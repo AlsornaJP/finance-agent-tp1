@@ -69,3 +69,22 @@ def test_health(cliente):
 def test_diagnosticar_mes_sem_dados_falha_antes_do_llm(banco_classificado):
     with pytest.raises(ValueError, match="Não há transações para 2023-01"):
         asyncio.run(executar_pedido(PedidoDiagnosticar(acao="diagnosticar", mes="2023-01"), banco_classificado))
+
+
+def test_fluxos_da_api_usam_configuracao_nao_interativa(monkeypatch, banco_classificado):
+    from dataclasses import replace
+
+    from api import fluxos
+    from tests.test_runner import _settings
+
+    monkeypatch.setattr(fluxos, "load_settings", lambda: replace(_settings(), interativo=True))
+    recebidas = []
+
+    async def diagnosticar_falso(banco, mes, settings):
+        recebidas.append(settings)
+        raise RuntimeError("parar aqui")
+
+    monkeypatch.setattr(fluxos, "diagnosticar", diagnosticar_falso)
+    with pytest.raises(RuntimeError, match="parar aqui"):
+        asyncio.run(executar_pedido(PedidoDiagnosticar(acao="diagnosticar", mes="2024-04"), banco_classificado))
+    assert recebidas[0].interativo is False

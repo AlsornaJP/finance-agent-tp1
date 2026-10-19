@@ -1,13 +1,18 @@
+from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
 
 from agent import database
-from agent.config import load_settings
+from agent.config import Settings, load_settings
 from agent.consulta import perguntar
 from agent.database import CAMINHO_BANCO_PADRAO
 from agent.diagnostico import diagnosticar, levantar_mes
 from agent.importacao import importar
 from api.schemas import PedidoDiagnosticar, PedidoImportar, PedidoPerguntar, PedidoRun
+
+
+def _configuracao_da_api() -> Settings:
+    return replace(load_settings(), interativo=False)
 
 
 def _salvar_csv_recebido(banco: Path, conteudo: str) -> Path:
@@ -20,18 +25,18 @@ def _salvar_csv_recebido(banco: Path, conteudo: str) -> Path:
 
 async def _importar(pedido: PedidoImportar, banco: Path) -> dict:
     caminho_csv = _salvar_csv_recebido(banco, pedido.csv)
-    log = await importar(banco, caminho_csv, load_settings())
+    log = await importar(banco, caminho_csv, _configuracao_da_api())
     return {"log": str(log), "meses_disponiveis": database.meses_disponiveis(banco)}
 
 
 async def _perguntar(pedido: PedidoPerguntar, banco: Path) -> dict:
-    resultado = await perguntar(banco, pedido.sessao_id, pedido.pergunta, load_settings())
+    resultado = await perguntar(banco, pedido.sessao_id, pedido.pergunta, _configuracao_da_api())
     return {"resposta": resultado.resposta.model_dump(), "log": str(resultado.log)}
 
 
 async def _diagnosticar(pedido: PedidoDiagnosticar, banco: Path) -> dict:
     levantamento = levantar_mes(banco, pedido.mes)
-    diagnostico, log = await diagnosticar(banco, pedido.mes, load_settings())
+    diagnostico, log = await diagnosticar(banco, pedido.mes, _configuracao_da_api())
     return {
         "diagnostico": diagnostico.model_dump(),
         "total_mes": levantamento.total.model_dump(),

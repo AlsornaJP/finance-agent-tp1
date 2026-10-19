@@ -49,7 +49,7 @@ Schemas de saída: `agent/schema.py`. Contrato completo: `../integration/contrat
 - Python 3.12 + OpenAI Agents SDK, FastAPI, Uvicorn, uv
 - Modelos: Gemini (Google AI Studio) é a primeira opção de todos os agentes e a única dos agentes com tools (os Gemma ignoram tools quando há `output_type`); Gemma via OpenRouter é fallback dos agentes sem tools
 - Variáveis em `.env` (nunca commitado; nomes em `.env.example`): `OPENAI_API_KEY`, `OPENAI_SECOND_API_KEY`, `OPENAI_THIRD_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_DEFAULT_MODEL`, `OPENAI_FALLBACK_MODEL`, `GOOGLE_API_KEY`, `GOOGLE_EMBEDDING_MODEL`, `GEMINI_MODELS`, `OPENAI_AGENTS_DISABLE_TRACING=1`
-- Sem terminal interativo (API), o runner não pergunta pela próxima chave do OpenRouter: a tarefa vira `error`
+- Na API, os fluxos recebem `Settings` com `interativo=False` (`api/fluxos.py`): o runner nunca chama `input()` para pedir a próxima chave do OpenRouter, e a tarefa vira `error`
 
 ## Comandos (sempre de dentro de `agent1/`)
 - `uv sync`

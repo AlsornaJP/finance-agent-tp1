@@ -81,7 +81,7 @@ def _confirmar_proxima_chave(settings: Settings, proximo_indice: int) -> bool:
     if proximo_indice >= len(settings.api_keys):
         print("\n[rate limit] Todas as chaves do OpenRouter configuradas no .env já foram usadas.")
         return False
-    if not sys.stdin.isatty():
+    if not settings.interativo or not sys.stdin.isatty():
         return False
     resposta = input(
         f"\n[rate limit] O limite diário da chave atual foi atingido. "

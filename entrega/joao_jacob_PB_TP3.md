@@ -71,8 +71,9 @@ A lógica do agente ficou intacta: a camada `agent1/api/` só traduz HTTP para o
 - Qualquer exceção do fluxo vira `status: "error"` com `"<Tipo>: <mensagem>"`; o serviço não cai.
 - O `diagnosticar` devolve, além do diagnóstico, `total_mes` e `gastos_por_categoria` calculados em
   Python — exatamente a entrada do agente 2.
-- Única mudança fora de `api/`: sem terminal interativo, o runner não chama `input()` para pedir a próxima
-  chave do OpenRouter (bloquearia o servidor); a tarefa vira `error`.
+- Única mudança fora de `api/`: um campo `interativo` em `Settings`. A API usa `interativo=False`, e então o
+  runner nunca chama `input()` para pedir a próxima chave do OpenRouter (bloquearia o servidor inteiro, mesmo
+  rodando num terminal); a tarefa vira `error`.
 
 Respostas reais (em `integration/exemplos/`):
 

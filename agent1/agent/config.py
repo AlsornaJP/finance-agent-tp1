@@ -28,6 +28,7 @@ class Settings:
     google_base_url: str
     google_embedding_model: str
     gemini_models: tuple[str, ...]
+    interativo: bool = True
 
     @property
     def modelos(self) -> tuple[str, ...]:

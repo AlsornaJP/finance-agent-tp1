@@ -72,3 +72,12 @@ def test_confirmar_proxima_chave_sem_terminal_nao_pergunta(monkeypatch):
     monkeypatch.setattr("builtins.input", lambda *_: pytest.fail("input() não deve ser chamado"))
     settings = replace(_settings(), api_keys=("a", "b"), key_names=("OPENAI_API_KEY", "OPENAI_SECOND_API_KEY"))
     assert runner._confirmar_proxima_chave(settings, 1) is False
+
+
+def test_confirmar_proxima_chave_em_modo_nao_interativo_nao_pergunta_mesmo_com_terminal(monkeypatch):
+    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
+    monkeypatch.setattr("builtins.input", lambda *_: pytest.fail("input() não deve ser chamado"))
+    settings = replace(
+        _settings(), api_keys=("a", "b"), key_names=("OPENAI_API_KEY", "OPENAI_SECOND_API_KEY"), interativo=False
+    )
+    assert runner._confirmar_proxima_chave(settings, 1) is False
