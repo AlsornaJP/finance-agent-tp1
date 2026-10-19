@@ -1,3 +1,4 @@
+import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
@@ -79,6 +80,8 @@ def montar_tentativas(settings: Settings, key_index: int, com_tools: bool) -> li
 def _confirmar_proxima_chave(settings: Settings, proximo_indice: int) -> bool:
     if proximo_indice >= len(settings.api_keys):
         print("\n[rate limit] Todas as chaves do OpenRouter configuradas no .env já foram usadas.")
+        return False
+    if not sys.stdin.isatty():
         return False
     resposta = input(
         f"\n[rate limit] O limite diário da chave atual foi atingido. "

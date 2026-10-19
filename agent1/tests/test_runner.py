@@ -1,9 +1,11 @@
 import asyncio
+from dataclasses import replace
 
 import pytest
 from agents import SQLiteSession
 
 from agent.config import ConfigError, Settings
+from agent import runner
 from agent.runner import montar_tentativas, restaurar_sessao
 
 
@@ -63,3 +65,10 @@ def test_tentativas_com_tools_sem_configuracao_falham_com_mensagem():
         montar_tentativas(_settings(gemini_models=()), 0, com_tools=True)
     with pytest.raises(ConfigError, match="GOOGLE_API_KEY"):
         montar_tentativas(_settings(google_api_key=""), 0, com_tools=True)
+
+
+def test_confirmar_proxima_chave_sem_terminal_nao_pergunta(monkeypatch):
+    monkeypatch.setattr("sys.stdin.isatty", lambda: False)
+    monkeypatch.setattr("builtins.input", lambda *_: pytest.fail("input() não deve ser chamado"))
+    settings = replace(_settings(), api_keys=("a", "b"), key_names=("OPENAI_API_KEY", "OPENAI_SECOND_API_KEY"))
+    assert runner._confirmar_proxima_chave(settings, 1) is False
