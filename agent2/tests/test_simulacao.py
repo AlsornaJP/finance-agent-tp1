@@ -48,3 +48,11 @@ def test_simular_plano_rejeita_categoria_ausente_da_entrada(pedido_base):
 def test_simular_plano_rejeita_categoria_cortada_duas_vezes(pedido_base):
     with pytest.raises(ValueError, match="Lazer"):
         simular_plano(pedido_base, [Corte(categoria="Lazer", valor_mensal=10.0), Corte(categoria="Lazer", valor_mensal=20.0)])
+
+
+def test_cortar_exatamente_o_valor_a_cobrir_atinge_a_meta_mesmo_com_divisao_inexata():
+    pedido = montar_pedido(saldo=0.0, meta={"valor": 1000.0, "prazo": "2024-07"})
+    necessidade = calcular_necessidade(pedido)
+    assert necessidade.economia_mensal_necessaria == 333.34
+    simulacao = simular_plano(pedido, [Corte(categoria="Alimentação", valor_mensal=necessidade.valor_a_cobrir_com_cortes)])
+    assert simulacao.atinge_meta

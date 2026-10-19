@@ -1,11 +1,18 @@
+import math
+
 from planner.schema import Corte, Necessidade, PedidoPlano, ProjecaoMes, Simulacao
 
 TOLERANCIA_CENTAVOS = 0.005
+CASAS_DE_ESTABILIZACAO = 6
 
 
 def _proximo_mes(mes: str) -> str:
     ano, numero = map(int, mes.split("-"))
     return f"{ano + 1}-01" if numero == 12 else f"{ano}-{numero + 1:02d}"
+
+
+def _arredondar_centavo_para_cima(valor: float) -> float:
+    return math.ceil(round(valor * 100, CASAS_DE_ESTABILIZACAO)) / 100
 
 
 def meses_do_plano(mes_referencia: str, prazo: str) -> list[str]:
@@ -19,7 +26,7 @@ def meses_do_plano(mes_referencia: str, prazo: str) -> list[str]:
 
 def calcular_necessidade(pedido: PedidoPlano) -> Necessidade:
     meses = len(meses_do_plano(pedido.mes_referencia, pedido.meta.prazo))
-    necessaria = round(pedido.meta.valor / meses, 2)
+    necessaria = _arredondar_centavo_para_cima(pedido.meta.valor / meses)
     sobra_atual = round(pedido.total_mes.saldo, 2)
     return Necessidade(
         meses_disponiveis=meses,

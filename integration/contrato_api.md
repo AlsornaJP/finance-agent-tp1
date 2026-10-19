@@ -135,7 +135,7 @@ Campos extras em `total_mes` e nos itens de `gastos_por_categoria` são ignorado
 |---|---|
 | `meta`, `mes_referencia` | ecoam o pedido |
 | `meses_disponiveis` | do mês seguinte a `mes_referencia` até o prazo, inclusive |
-| `economia_mensal_necessaria` | `meta.valor / meses_disponiveis` |
+| `economia_mensal_necessaria` | `meta.valor / meses_disponiveis`, arredondado para cima ao centavo |
 | `sobra_atual` | `total_mes.saldo` |
 | `valor_a_cobrir_com_cortes` | `max(0, necessária − sobra)` |
 | `viavel` | a projeção atinge a meta no prazo |
