@@ -29,25 +29,23 @@ agente 1 e captura a resposta.
 
 ## 2. Ambiente: Antigravity + Claude Code
 
-**Alternativa escolhida:** Claude Code CLI no terminal integrado do Antigravity, usando a conta Claude do
-aluno.
+**Alternativa escolhida:** Claude Code CLI, autenticado com a conta Claude do aluno, rodando no terminal do
+sistema ao lado do Antigravity, que é usado como editor do mesmo repositório. Essa é a forma de uso adotada
+desde o TP1.
 
 Passos executados:
 
-1. Instalação do Claude Code CLI (`curl -fsSL https://claude.ai/install.sh | bash`) e login com `claude`.
-2. Abertura da pasta do repositório no Antigravity como workspace.
-3. No terminal integrado do Antigravity, execução de `claude` na raiz do repositório.
+1. Instalação do Claude Code CLI e login com a conta Claude (`claude`).
+2. Abertura da pasta do repositório no Antigravity como workspace, para leitura, revisão e edição manual.
+3. Em um terminal do sistema, execução de `claude` na raiz do repositório; o Claude Code trabalha sobre os
+   mesmos arquivos que estão abertos no Antigravity.
 4. Cada agente tem o seu `CLAUDE.md` na própria pasta. O Claude Code carrega o `CLAUDE.md` da pasta em que
    está trabalhando, então ao editar `agent2/` ele recebe o contexto do planejador, e não o do agente 1.
    Não existe `CLAUDE.md` na raiz.
 5. Fluxo sequencial para evitar conflitos de escrita: o Claude Code escreve e testa (`pytest`), o
    Antigravity é usado para revisar e editar, e os serviços são validados separadamente com `curl`.
 
-![Antigravity com o repositório aberto](capturas/antigravity_workspace.png)
-
-![Claude Code rodando no terminal integrado](capturas/claude_code_terminal.png)
-
-![Claude Code trabalhando em agent2/ com o CLAUDE.md do agente](capturas/claude_code_agent2.png)
+![Antigravity com o repositório aberto e o Claude Code no terminal ao lado](capturas/antigravity_claude_code.png)
 
 O desenvolvimento seguiu uma especificação e um plano versionados
 (`docs/superpowers/specs/2026-10-19-tp3-design.md` e `docs/superpowers/plans/2026-10-19-tp3.md`),
