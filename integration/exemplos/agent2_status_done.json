@@ -1,0 +1,115 @@
+{
+  "task_id": "7f4be1f7-93c6-40fa-bf24-0c12fed6a5da",
+  "status": "done",
+  "resultado": {
+    "plano": {
+      "meta": {
+        "valor": 1200.0,
+        "prazo": "2024-12"
+      },
+      "mes_referencia": "2024-04",
+      "meses_disponiveis": 8,
+      "economia_mensal_necessaria": 150.0,
+      "sobra_atual": -1073.35,
+      "valor_a_cobrir_com_cortes": 1223.35,
+      "viavel": true,
+      "cortes": [
+        {
+          "categoria": "Lazer",
+          "gasto_atual": 72.0,
+          "corte_mensal": 72.0,
+          "justificativa": "Corte de despesas discricionárias para aproximar o orçamento do equilíbrio."
+        },
+        {
+          "categoria": "Compras",
+          "gasto_atual": 129.9,
+          "corte_mensal": 129.9,
+          "justificativa": "Redução total do gasto nesta categoria não essencial para cobrir o déficit."
+        },
+        {
+          "categoria": "Serviços/Assinaturas",
+          "gasto_atual": 61.8,
+          "corte_mensal": 61.8,
+          "justificativa": "Eliminação de assinaturas mensais para gerar economia."
+        },
+        {
+          "categoria": "Alimentação",
+          "gasto_atual": 2853.25,
+          "corte_mensal": 959.65,
+          "justificativa": "Adequação necessária no orçamento de alimentação para atingir o valor a cobrir."
+        }
+      ],
+      "economia_mensal_planejada": 150.0,
+      "projecao": [
+        {
+          "mes": "2024-05",
+          "acumulado": 150.0
+        },
+        {
+          "mes": "2024-06",
+          "acumulado": 300.0
+        },
+        {
+          "mes": "2024-07",
+          "acumulado": 450.0
+        },
+        {
+          "mes": "2024-08",
+          "acumulado": 600.0
+        },
+        {
+          "mes": "2024-09",
+          "acumulado": 750.0
+        },
+        {
+          "mes": "2024-10",
+          "acumulado": 900.0
+        },
+        {
+          "mes": "2024-11",
+          "acumulado": 1050.0
+        },
+        {
+          "mes": "2024-12",
+          "acumulado": 1200.0
+        }
+      ],
+      "diferenca_para_meta": 0.0,
+      "resumo": "Para alcançar a sua meta no prazo de 8 meses, identificamos que a sua situação financeira atual apresenta um déficit e exige uma economia mensal de 150.0. Como a sobra atual é negativa em -1073.35, o plano requer uma reestruturação severa nos seus gastos mensais.\n\nPara viabilizar a conquista, propomos cortes em categorias discricionárias e essenciais, incluindo reduções em Lazer, Compras, Serviços/Assinaturas e Alimentação. Com essas alterações, a simulação confirma que a meta de 1200.0 será atingida no prazo estipulado, garantindo o acúmulo de 150.0 todos os meses.",
+      "valores_citados": [
+        {
+          "descricao": "Economia mensal necessária",
+          "valor": 150.0,
+          "ferramenta": "calcular_necessidade_da_meta"
+        },
+        {
+          "descricao": "Sobra atual do mês de referência",
+          "valor": -1073.35,
+          "ferramenta": "calcular_necessidade_da_meta"
+        },
+        {
+          "descricao": "Valor a cobrir com cortes",
+          "valor": 1223.35,
+          "ferramenta": "calcular_necessidade_da_meta"
+        },
+        {
+          "descricao": "Economia mensal planejada",
+          "valor": 150.0,
+          "ferramenta": "simular_cortes"
+        },
+        {
+          "descricao": "Acumulado no prazo",
+          "valor": 1200.0,
+          "ferramenta": "simular_cortes"
+        },
+        {
+          "descricao": "Diferença para a meta",
+          "valor": 0.0,
+          "ferramenta": "simular_cortes"
+        }
+      ]
+    },
+    "log": "prompts/outputs/planejar_2024-12_20261019-193301.md"
+  },
+  "erro": null
+}

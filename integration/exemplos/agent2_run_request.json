@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "valor": 1200.0,
+    "prazo": "2024-12"
+  },
+  "mes_referencia": "2024-04",
+  "total_mes": {
+    "mes": "2024-04",
+    "total_gasto": 5573.35,
+    "quantidade_transacoes": 16,
+    "renda": 4500.0,
+    "saldo": -1073.35,
+    "percentual_renda_gasto": 123.85
+  },
+  "gastos_por_categoria": [
+    {
+      "categoria": "Alimentação",
+      "valor_total": 2853.25,
+      "quantidade_transacoes": 3,
+      "percentual_do_total": 51.19,
+      "percentual_da_renda": 63.41
+    },
+    {
+      "categoria": "Moradia",
+      "valor_total": 1654.1,
+      "quantidade_transacoes": 2,
+      "percentual_do_total": 29.68,
+      "percentual_da_renda": 36.76
+    },
+    {
+      "categoria": "Saúde",
+      "valor_total": 350.0,
+      "quantidade_transacoes": 1,
+      "percentual_do_total": 6.28,
+      "percentual_da_renda": 7.78
+    },
+    {
+      "categoria": "Transporte",
+      "valor_total": 330.3,
+      "quantidade_transacoes": 4,
+      "percentual_do_total": 5.93,
+      "percentual_da_renda": 7.34
+    },
+    {
+      "categoria": "Compras",
+      "valor_total": 129.9,
+      "quantidade_transacoes": 1,
+      "percentual_do_total": 2.33,
+      "percentual_da_renda": 2.89
+    },
+    {
+      "categoria": "Educação",
+      "valor_total": 89.0,
+      "quantidade_transacoes": 1,
+      "percentual_do_total": 1.6,
+      "percentual_da_renda": 1.98
+    },
+    {
+      "categoria": "Lazer",
+      "valor_total": 72.0,
+      "quantidade_transacoes": 1,
+      "percentual_do_total": 1.29,
+      "percentual_da_renda": 1.6
+    },
+    {
+      "categoria": "Serviços/Assinaturas",
+      "valor_total": 61.8,
+      "quantidade_transacoes": 2,
+      "percentual_do_total": 1.11,
+      "percentual_da_renda": 1.37
+    },
+    {
+      "categoria": "Não identificado",
+      "valor_total": 33.0,
+      "quantidade_transacoes": 1,
+      "percentual_do_total": 0.59,
+      "percentual_da_renda": 0.73
+    }
+  ]
+}
