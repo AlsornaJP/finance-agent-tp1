@@ -9,7 +9,7 @@ o fallback pode levar minutos — tenha uma execução já concluída aberta no 
 
 | Tempo | Tela | Fala |
 |---|---|---|
-| 0:00–0:30 | Antigravity com o repositório aberto e o Claude Code no terminal integrado | Apresentação; o TP3 transforma o agente em serviço e cria um segundo agente independente |
+| 0:00–0:30 | Antigravity com o repositório aberto e o Claude Code no terminal ao lado | Apresentação; o TP3 transforma o agente em serviço e cria um segundo agente independente |
 | 0:30–1:00 | Árvore do repositório: `agent1/`, `agent2/`, `integration/`, `workflows/`, `evaluation/` | Dois projetos separados, cada um com `CLAUDE.md`, `pyproject` e API próprios; nenhum chama o outro |
 | 1:00–1:30 | `agent1/CLAUDE.md` e `agent2/CLAUDE.md` lado a lado | Invariantes no topo, seção "fora do escopo", schemas por referência |
 | 1:30–2:30 | Terminal 1: `cd agent1 && .venv/bin/uvicorn api.main:app --host 0.0.0.0 --port 8001`; terminal 3: `curl /health`, `POST /run perguntar` → 202, `GET /status` → `done` com `valores_citados`; `POST /run diagnosticar 2023-01` → `error` | 202 imediato com `task_id`, `BackgroundTasks`, estados `pending`/`done`/`error`, rastreabilidade mantida |
