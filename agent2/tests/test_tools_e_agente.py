@@ -38,3 +38,10 @@ def test_load_settings_le_modelos_em_ordem(monkeypatch):
     monkeypatch.setenv("GOOGLE_API_KEY", "chave")
     monkeypatch.setenv("GEMINI_MODELS", "gemini-a, gemini-b")
     assert load_settings().gemini_models == ("gemini-a", "gemini-b")
+
+
+def test_instructions_em_uso_sao_a_v2_com_valores_em_reais():
+    from planner.prompts import CAMINHO_INSTRUCTIONS_PLANEJADOR
+
+    assert CAMINHO_INSTRUCTIONS_PLANEJADOR.name == "planejador_v2.md"
+    assert "R$ 1.223,35" in INSTRUCTIONS_PLANEJADOR
