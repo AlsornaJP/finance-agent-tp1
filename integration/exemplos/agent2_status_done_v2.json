@@ -1,0 +1,115 @@
+{
+  "task_id": "1a1fca22-34e6-413c-9afb-8205c4d14508",
+  "status": "done",
+  "resultado": {
+    "plano": {
+      "meta": {
+        "valor": 1200.0,
+        "prazo": "2024-12"
+      },
+      "mes_referencia": "2024-04",
+      "meses_disponiveis": 8,
+      "economia_mensal_necessaria": 150.0,
+      "sobra_atual": -1073.35,
+      "valor_a_cobrir_com_cortes": 1223.35,
+      "viavel": true,
+      "cortes": [
+        {
+          "categoria": "Lazer",
+          "gasto_atual": 72.0,
+          "corte_mensal": 72.0,
+          "justificativa": "Corte total do gasto em Lazer para liberar recursos para a meta."
+        },
+        {
+          "categoria": "Compras",
+          "gasto_atual": 129.9,
+          "corte_mensal": 129.9,
+          "justificativa": "Corte total do gasto em Compras para priorizar a economia."
+        },
+        {
+          "categoria": "Serviços/Assinaturas",
+          "gasto_atual": 61.8,
+          "corte_mensal": 61.8,
+          "justificativa": "Eliminação completa dos gastos com Serviços/Assinaturas."
+        },
+        {
+          "categoria": "Alimentação",
+          "gasto_atual": 2853.25,
+          "corte_mensal": 959.65,
+          "justificativa": "Redução necessária em Alimentação para cobrir o restante do valor exigido."
+        }
+      ],
+      "economia_mensal_planejada": 150.0,
+      "projecao": [
+        {
+          "mes": "2024-05",
+          "acumulado": 150.0
+        },
+        {
+          "mes": "2024-06",
+          "acumulado": 300.0
+        },
+        {
+          "mes": "2024-07",
+          "acumulado": 450.0
+        },
+        {
+          "mes": "2024-08",
+          "acumulado": 600.0
+        },
+        {
+          "mes": "2024-09",
+          "acumulado": 750.0
+        },
+        {
+          "mes": "2024-10",
+          "acumulado": 900.0
+        },
+        {
+          "mes": "2024-11",
+          "acumulado": 1050.0
+        },
+        {
+          "mes": "2024-12",
+          "acumulado": 1200.0
+        }
+      ],
+      "diferenca_para_meta": 0.0,
+      "resumo": "Para atingir a sua meta no prazo de 8 meses, você precisa guardar uma economia mensal de R$ 150,00. Como a sua sobra atual é de -R$ 1.073,35, é necessário realizar um valor a cobrir com cortes de R$ 1.223,35.\n\nComo o corte integral das categorias estritamente discricionárias não foi suficiente para fechar a conta, foi preciso ajustar também os gastos com Alimentação. Com a adoção desses cortes mensais, a economia mensal planejada chega a R$ 150,00 e a meta torna-se viável dentro do prazo estipulado.\n\nÉ fundamental manter esses cortes rigorosamente todos os meses para garantir que a projeção acumulada atinja o valor total necessário.",
+      "valores_citados": [
+        {
+          "descricao": "Economia mensal necessária",
+          "valor": 150.0,
+          "ferramenta": "calcular_necessidade_da_meta"
+        },
+        {
+          "descricao": "Sobra atual do mês de referência",
+          "valor": -1073.35,
+          "ferramenta": "calcular_necessidade_da_meta"
+        },
+        {
+          "descricao": "Valor a cobrir com cortes",
+          "valor": 1223.35,
+          "ferramenta": "calcular_necessidade_da_meta"
+        },
+        {
+          "descricao": "Economia mensal planejada",
+          "valor": 150.0,
+          "ferramenta": "simular_cortes"
+        },
+        {
+          "descricao": "Acumulado no prazo",
+          "valor": 1200.0,
+          "ferramenta": "simular_cortes"
+        },
+        {
+          "descricao": "Diferença para a meta",
+          "valor": 0.0,
+          "ferramenta": "simular_cortes"
+        }
+      ]
+    },
+    "log": "prompts/outputs/planejar_2024-12_20261019-214009.md"
+  },
+  "erro": null
+}

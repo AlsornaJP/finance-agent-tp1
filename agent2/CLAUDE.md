@@ -25,7 +25,7 @@ Dada uma meta de poupança com prazo, a renda e o saldo de um mês de referênci
 - `planner/runner.py`, `planner/config.py` — execução com fallback entre os modelos de `GEMINI_MODELS`
 - `planner/execution_log.py`, `planner/rastreio.py` — log em Markdown e chamadas de tool
 - `api/` — FastAPI: `main.py` (rotas) e `tarefas.py` (registro de tarefas)
-- `prompts/` — `planejador_v1.md` (anatomia de 4 componentes) e logs em `prompts/outputs/`
+- `prompts/` — `planejador_v2.md` em uso e `planejador_v1.md` como registro (anatomia de 4 componentes); logs em `prompts/outputs/`
 - `tests/` — `pytest` de schemas, simulação, plano, tools e API
 
 ## Tools

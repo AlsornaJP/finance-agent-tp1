@@ -174,7 +174,7 @@ Documento completo em `evaluation/avaliacao_final.md`. Resumo:
 | TP1 P3 → P4 (anatomia de 4 componentes) | categorias fixas respeitadas 9/9 | estrutura de todos os prompts |
 | TP2 A/B: sem tools × com tools | precisão numérica 0,667 × 1,00 (2 meses) | com tools |
 | TP2 PRRR: assistente v1 × v2 | 6/7, rastreabilidade 0,952 × 7/7, 1,0 | v2 |
-| TP3 planejador v1 + recálculo em código | plano real fecha (diferença 0,00) | adotado |
+| TP3 planejador v1 × v2 (formato de saída) | plano real fecha nas duas; números do resumo em reais: 0/4 × 4/4 | v2 |
 
 **Critério de decisão:** vence a variante que entrega números garantidamente corretos e rastreáveis.
 
@@ -184,8 +184,9 @@ dizia o que fazer nesse caso. Correção na v2: regra explícita para números q
 obrigação de declarar em `valores_citados` todo número do texto. O caso também revelou uma falha da métrica,
 corrigida com a rastreabilidade no texto.
 
-Fica registrada uma observação aberta no planejador: o resumo escreve números em formato de código
-(`150.0`), por um formato de saída subespecificado no prompt.
+Um segundo ciclo, no planejador, corrigiu um formato de saída subespecificado: a v1 escrevia os números do
+resumo em formato de código (`150.0`); a v2 os escreve em reais (`R$ 150,00`), com os mesmos cortes e o
+mesmo plano.
 
 ## 8. Primeiro workflow n8n
 
