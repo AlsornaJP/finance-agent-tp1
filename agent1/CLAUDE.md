@@ -1,5 +1,7 @@
 # CLAUDE.md — Agente 1: Finanças Pessoais
 
+**Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
+
 ## Responsabilidade
 Importa extratos bancários em CSV para um SQLite, classifica as transações, responde perguntas sobre os gastos com tools e memória, e gera diagnósticos mensais em etapas. Exposto como serviço REST (FastAPI, porta 8001). Projeto de Bloco — Agentes de IA (TP1 a TP3), OpenAI Agents SDK.
 

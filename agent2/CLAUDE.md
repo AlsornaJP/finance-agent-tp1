@@ -1,5 +1,7 @@
 # CLAUDE.md — Agente 2: Planejador de Metas
 
+**Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
+
 ## Responsabilidade
 Dada uma meta de poupança com prazo, a renda e o saldo de um mês de referência e os gastos desse mês por categoria, diz se a meta é viável, propõe cortes mensais por categoria e projeta o acumulado mês a mês. Exposto como serviço REST (FastAPI, porta 8002). Projeto de Bloco — Agentes de IA (TP3), OpenAI Agents SDK.
 
