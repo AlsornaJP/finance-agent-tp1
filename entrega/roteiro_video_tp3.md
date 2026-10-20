@@ -3,8 +3,9 @@
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5
 
 Antes de gravar: n8n rodando no Docker, workflow importado, os dois `.env` preenchidos, banco do agente 1
-com 2024-03 e 2024-04 importados. Deixe prontos os resultados de um `diagnosticar` já concluído (leva
-~10 min) para não esperar ao vivo.
+com 2024-03 e 2024-04 importados. O `diagnosticar` leva cerca de 15 s com o Gemini respondendo
+normalmente (medido na execução do n8n), então dá para rodar ao vivo; se o Gemini estiver sob limite de uso,
+o fallback pode levar minutos — tenha uma execução já concluída aberta no n8n como reserva.
 
 | Tempo | Tela | Fala |
 |---|---|---|

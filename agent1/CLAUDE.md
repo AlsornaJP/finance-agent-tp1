@@ -64,4 +64,4 @@ Schemas de saída: `agent/schema.py`. Contrato completo: `../integration/contrat
 - Evite comentários no código; use nomes de variáveis e funções claros, em português
 - Toda execução gera log salvo em arquivo (`prompts/outputs/`), evidência para o relatório
 - Testes da parte determinística e da API com `pytest`; na API, os fluxos de LLM são substituídos por funções falsas via `criar_app(executar)`
-- Execuções reais de LLM são lentas (o diagnóstico leva ~10 min): não repetir no ciclo de desenvolvimento, rodar uma vez por entrega e em segundo plano
+- Execuções reais de LLM não entram no ciclo de desenvolvimento: o diagnóstico leva ~15 s com o Gemini, mas sob rate limit o fallback pode levar vários minutos; rodar uma vez por entrega e em segundo plano
