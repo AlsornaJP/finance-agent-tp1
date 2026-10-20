@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {},
-      "id": "a1000000-0000-4000-8000-000000000001",
+      "id": "3d9a24a9-5f71-414a-94b1-ee62bcfcc843",
       "name": "Iniciar",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
@@ -21,12 +21,12 @@
         "jsonBody": "={\n  \"acao\": \"diagnosticar\",\n  \"mes\": \"2024-04\"\n}",
         "options": {}
       },
-      "id": "a1000000-0000-4000-8000-000000000002",
+      "id": "73c5b027-2c2e-4c71-bee9-35ba7478b038",
       "name": "POST run",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        220,
+        224,
         0
       ]
     },
@@ -34,12 +34,12 @@
       "parameters": {
         "amount": 15
       },
-      "id": "a1000000-0000-4000-8000-000000000003",
+      "id": "ade05c10-040d-4989-8336-ffa42aacec16",
       "name": "Aguardar",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        440,
+        448,
         0
       ],
       "webhookId": "a1000000-0000-4000-8000-0000000000aa"
@@ -49,12 +49,12 @@
         "url": "=http://local:8001/status/{{ $('POST run').item.json.task_id }}",
         "options": {}
       },
-      "id": "a1000000-0000-4000-8000-000000000004",
+      "id": "b17d7a13-38f3-4b07-a007-df3ff35830c1",
       "name": "GET status",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        660,
+        672,
         0
       ]
     },
@@ -64,7 +64,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -81,7 +82,7 @@
         },
         "options": {}
       },
-      "id": "a1000000-0000-4000-8000-000000000005",
+      "id": "ff92424b-c3cd-449f-9c61-de7ffc0e050f",
       "name": "Ainda pendente?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
@@ -122,16 +123,17 @@
         },
         "options": {}
       },
-      "id": "a1000000-0000-4000-8000-000000000006",
+      "id": "e58e0226-ae85-47f1-8bfa-7cc49a093693",
       "name": "Resultado do agente 1",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1100,
-        100
+        1104,
+        112
       ]
     }
   ],
+  "pinData": {},
   "connections": {
     "Iniciar": {
       "main": [
@@ -198,7 +200,14 @@
   },
   "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
-  "pinData": {}
+  "versionId": "fc7858ab-d701-44c7-9c8c-432fd095b138",
+  "meta": {
+    "instanceId": "1b16b1df538ba12dc3f97edbb85caa7050d46c148134290feba80f8236c83db9"
+  },
+  "nodeGroups": [],
+  "id": "LBO4q3Ogckm55lVE",
+  "tags": []
 }
