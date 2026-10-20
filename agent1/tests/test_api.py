@@ -88,3 +88,14 @@ def test_fluxos_da_api_usam_configuracao_nao_interativa(monkeypatch, banco_class
     with pytest.raises(RuntimeError, match="parar aqui"):
         asyncio.run(executar_pedido(PedidoDiagnosticar(acao="diagnosticar", mes="2024-04"), banco_classificado))
     assert recebidas[0].interativo is False
+
+
+def test_csvs_recebidos_no_mesmo_segundo_nao_se_sobrescrevem(tmp_path):
+    from api.fluxos import _salvar_csv_recebido
+
+    banco = tmp_path / "financas.db"
+    primeiro = _salvar_csv_recebido(banco, "primeiro")
+    segundo = _salvar_csv_recebido(banco, "segundo")
+    assert primeiro != segundo
+    assert primeiro.read_text(encoding="utf-8") == "primeiro"
+    assert segundo.read_text(encoding="utf-8") == "segundo"

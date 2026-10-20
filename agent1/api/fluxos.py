@@ -1,6 +1,7 @@
 from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
+from uuid import uuid4
 
 from agent import database
 from agent.config import Settings, load_settings
@@ -18,7 +19,7 @@ def _configuracao_da_api() -> Settings:
 def _salvar_csv_recebido(banco: Path, conteudo: str) -> Path:
     diretorio = banco.parent / "importacoes"
     diretorio.mkdir(parents=True, exist_ok=True)
-    destino = diretorio / f"api_{datetime.now():%Y%m%d-%H%M%S}.csv"
+    destino = diretorio / f"api_{datetime.now():%Y%m%d-%H%M%S}_{uuid4().hex[:8]}.csv"
     destino.write_text(conteudo, encoding="utf-8")
     return destino
 

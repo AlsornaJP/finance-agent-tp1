@@ -2,7 +2,7 @@
 
 **Aluno:** João Pedro Jacob · **Disciplina:** 26E3_5 · **Projeto de Bloco — Agentes Inteligentes**
 **Repositório:** <https://github.com/AlsornaJP/finance-agent-tp1>
-**Vídeo:** <LINK_DO_VIDEO>
+**Vídeo:** <https://drive.google.com/drive/folders/14TclvXp9F6-P7GyieWkeyh52sFXjNosH?usp=drive_link>
 
 ## 1. Introdução
 
@@ -235,4 +235,4 @@ só conhecem os próprios contratos.
 ## 12. Links
 
 - Repositório: <https://github.com/AlsornaJP/finance-agent-tp1>
-- Vídeo: <LINK_DO_VIDEO>
+- Vídeo: <https://drive.google.com/drive/folders/14TclvXp9F6-P7GyieWkeyh52sFXjNosH?usp=drive_link>
